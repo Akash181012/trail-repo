@@ -1,0 +1,1372 @@
+openapi: 3.0.1
+info:
+  title: Customer Management
+  description: This is Swagger specification for the TMF Customer Management.
+  version: "$Revision: 1.40 $"
+servers:
+  - url: http://serverRoot/api/customer-management/v4/
+tags:
+  - name: customer
+paths:
+  /customer:
+    get:
+      tags:
+        - customer
+      summary: List or find Customer objects
+      description: This operation list or find Customer entities
+      operationId: listCustomer
+      parameters:
+        - name: fields
+          in: query
+          description: Comma-separated properties to be provided in response.The field
+            names should be from the first level of property names as defined in Customer
+            schema.
+          schema:
+            type: string
+        - name: csrId
+          in: query
+          description: It is logged in csr id and it is mandatory when List of VIP and
+            Enterprise is fetched.
+          schema:
+            type: string
+        - name: sortKey
+          in: query
+          description: To sort the response based on sortkeys. Possible values name.
+            Values will be retrieved from RT perestapi.imp.cust.SORT_KEY
+          schema:
+            type: string
+            x-refdata-source: RT-perestapi.imp.cust.SORT_KEY
+          x-refdata-source: RT-perestapi.imp.cust.SORT_KEY
+        - name: sortOrder
+          in: query
+          description: "To sort the response based on sort order. Possible value ascending,\
+          \ descending"
+          schema:
+            type: string
+        - name: retrievalType
+          in: query
+          description: "Type of retrieval of data. 1 -> retrieves the list of all object\
+          \ keys along with the number of object details mentioned in retrievalLimit,\
+          \ 2 -> retrieves the list of all object keys, 3 -> retrieves object details\
+          \ for the keys mentioned in objKeys"
+          required: true
+          schema:
+            type: string
+        - name: retrievalLimit
+          in: query
+          description: Limit to the number of objects retrieved. Mandatory when retrievalType
+            is 1
+          schema:
+            type: string
+        - name: objKeys
+          in: query
+          description: Comma-separated object keys for which details to be retrieved.
+            Mandatory when retrievalType is 3
+          schema:
+            type: string
+        - name: customerType
+          in: query
+          description: To retrieve the customers by type - SV_MAPPING:Cust_Acct_Type.DisplayName_X
+            - RT api.imp.ALL_CC_CUSTOMER_TYPE. Can be used together with retrievalType
+            parameter or as additional parameter to searchKey and searchValue
+          schema:
+            type: string
+            x-refdata-source: RT-api.imp.ALL_CC_CUSTOMER_TYPE
+          x-refdata-source: RT-api.imp.ALL_CC_CUSTOMER_TYPE
+        - name: customerRank
+          in: query
+          description: "It tells if VIP list of customers are needed to be retrieved.\
+          \ Possible Value: VIP. Can be used together with retrievalType parameter"
+          schema:
+            type: integer
+            format: int64
+            x-refdata-source: RT-accl.cust.CUSTOMER_RANK
+          x-refdata-source: RT-accl.cust.CUSTOMER_RANK
+        - name: listEntCustFlag
+          in: query
+          description: "It tells if list of enterprise customers are needed to be retrieved.\
+          \ Possible Value: 1. Can be used together with retrievalType parameter"
+          schema:
+            type: integer
+            format: int64
+        - name: searchKey
+          in: query
+          description: "Search Keys on which data needs to be filtered. Valid Values:\
+          \ Name | MSISDN | IMSI | National ID | Account Number | Company Number |\
+          \ Passport ID. These values will be retrieved from RT perestapi.imp.cust.GlobalSrchFilters.\
+          \ Can be used together with retrievalType parameter"
+          schema:
+            type: string
+            x-refdata-source: RT-perestapi.imp.cust.GlobalSrchFilters
+          x-refdata-source: RT-perestapi.imp.cust.GlobalSrchFilters
+        - name: searchValue
+          in: query
+          description: Value of the searchKey passed. Mandatory when searchKey is use.
+          schema:
+            type: string
+        - name: rootNodeId
+          in: query
+          description: "To retrieve the customers by root customer node id - SV_MAPPING:\
+          \ Cust_Acct.RootCustAcct_R. Can be used together with retrievalType parameter\
+          \ or as additional parameter to searchKey and searchValue."
+          schema:
+            type: string
+        - name: parentNodeId
+          in: query
+          description: "To retrieve the customers by parent customer node id - SV_MAPPING:\
+          \ Cust_Acct.ParentCustAcct_R. Can be used together with retrievalType parameter\
+          \ or as additional parameter to searchKey and searchValue."
+          schema:
+            type: string
+        - name: individualId
+          in: query
+          description: "To retrieve customer by Individual Id - SV_MAPPING:CustAcct_Contact.Contact.XSID.\
+          \ Can be used together with retrievalType parameter or with additional parameter\
+          \ customerType, rootNodeId or parentNodeId."
+          schema:
+            type: string
+        - name: reason
+          in: query
+          description: "The reason for which API is called. Valid values: BalanceTransfer.\
+          \ This value will be retrieved from RT perestapi.REASON. It is used with\
+          \ searchKey is Account Number"
+          schema:
+            type: string
+            x-refdata-source: RT-perestapi.REASON
+          x-refdata-source: RT-perestapi.REASON
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Customer_List'
+        "400":
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "405":
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "409":
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - customer
+      summary: Creates a Customer
+      operationId: createCustomer
+      parameters:
+        - name: Ignored-Warning
+          in: header
+          description: To store warning message IDs in comma separated string that will
+            be ignored by the server
+          schema:
+            type: string
+      requestBody:
+        description: The Customer to be created
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/Customer_Create'
+        required: true
+      responses:
+        "201":
+          description: Created
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "400":
+          description: Bad Request
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: Forbidden
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Not Found
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "405":
+          description: Method Not allowed
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "409":
+          description: Conflict
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: customer
+  /customer/{id}:
+    get:
+      tags:
+        - customer
+      summary: Retrieves a Customer by customer node id
+      operationId: retrieveCustomer
+      parameters:
+        - name: id
+          in: path
+          description: "Customer Node Id, SV_MAPPING: Cust_Acct.XSID_I"
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Comma-separated properties to provide in response.The field names
+            should be from the first level of property names as defined in Customer
+            schema.
+          schema:
+            type: string
+        - name: effectiveDate
+          in: query
+          description: "To search a specific customer history record details based on\
+          \ a given effective date value - Format: yyyy-mm-ddThh:nn:ss "
+          schema:
+            type: string
+            format: date-time
+        - name: reason
+          in: query
+          description: "The reason for which API is called. Valid values: BalanceTransfer.\
+          \ This value will be retrieved from RT perestapi.REASON"
+          schema:
+            type: string
+            x-refdata-source: RT-perestapi.REASON
+          x-refdata-source: RT-perestapi.REASON
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "400":
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "405":
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "409":
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - customer
+      summary: Update a customer by customer node id.
+      operationId: patchCustomer
+      parameters:
+        - name: id
+          in: path
+          description: "Customer node id, SV_MAPPING: Cust_Acct.XSID_I"
+          required: true
+          schema:
+            type: string
+        - name: Ignored-Warning
+          in: header
+          description: To store warning message IDs in comma separated string that will
+            be ignored by the server
+          schema:
+            type: string
+      requestBody:
+        description: The Customer to be updated
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/Customer_Update'
+        required: true
+      responses:
+        "200":
+          description: "Updated. Note: Only id, href and case will be outputted."
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "400":
+          description: Bad Request
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: Forbidden
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Not Found
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "405":
+          description: Method Not allowed
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "409":
+          description: Conflict
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: customer
+components:
+  schemas:
+    Customer:
+      required:
+        - href
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Customer id, SV_MAPPING:CustAcct.ObjectKey"
+        href:
+          type: string
+          description: Reference of the customer - <http://<PEREST_HOSTNAME>:<PEREST_PORT>/<customer
+            PEREST URL>/<CustAcct.ObjectKey>
+        case:
+          $ref: '#/components/schemas/CaseRef'
+        name:
+          type: string
+          description: "Customer Name, SV_MAPPING:Cust_Acct.CustAcctName_X"
+        status:
+          type: string
+          description: "Customer Status, SV_MAPPING:Cust_Acct.CustStatus_R"
+          x-refdata-source: RT-CUSTOMER_NODE_STATUS
+        statusChangeReason:
+          type: string
+          description: Customer Status Change Reason. SV_MAPPING:Cust_Acct.CustStatusChangeReason_X.
+          x-refdata-source: RT-accl.cust.statusChangeReason
+        defaultDisplayAccount:
+          type: string
+          description: Default Account Id. SV_MAPPING:Cust_Acct.PrimaryAcctID_I or
+            Account.AcctID_I
+        validFor:
+          $ref: '#/components/schemas/TimePeriod'
+        engagedParty:
+          type: array
+          description: "Describes defines people who are contacts for a customer.\
+            \ Note: phoneNumber will only be shown in the contactMedium. 'op' attribute\
+            \ will not be returned by GET customer"
+          items:
+            $ref: '#/components/schemas/PartyRef'
+        characteristic:
+          type: array
+          description: "Characteristic name supported: CreationDate | ActivationDate\
+            \ | CustomerType | PrimaryAccount | IndustryType | CustomerVatNumber |\
+            \ SalesRepresentative | CompanyNumer | PrepaidWithoutStatement | DepositAccountNumber\
+            \ | OpenCasesCount | PlanName | ServiceName | ServiceStatus | TotalPurchasedServices\
+            \ | CompanyType | CompanyRegistrationNumber | CUGId | EmployeeCount |\
+            \ FoundedDate | CustomerRank | VATExempt | OfficialLetterRequired | SpecialistCSR\
+            \ | PaysForSelf | PaysBySalary | PaymentDueDateOffset | PaymentDueDatePreference\
+            \ | TotalChildCustomers | VoucherTopUpStatus | ApartmentOwner | EncouragementDiscountPlan\
+            \ | AdminNumber | DoorLockPin | OfficerCSR | ResponsibleTeam | SubTeam\
+            \ | PaymentDueDateUOM | MaximumInvoiceAmountPayableCompany | PartialAmount\
+            \ | InvoiceEmailAddress. Characteristic value supported: CreationDate\
+            \ -> SV_MAPPING:Cust_Acct.CreatedDate_T| ActivationDate -> SV_MAPPING:Cust_Acct.ActiveDate_T\
+            \ | CustomerType -> SV_MAPPING:Cust_Acct.Type_R | PrimaryAccount -> SV_MAPPING:Cust_Acct.PrimaryAcctNum_X\
+            \ | IndustryType -> SV_MAPPING:Cust_Acct.Industry_R | CustomerVatNumber\
+            \ -> SV_MAPPING:Cust_Acct.UI_CustomerVATNumber_X | SalesRepresentative\
+            \ -> SV_MAPPING:Cust_Acct.SalesRepresentative_R | CompanyNumer -> SV_MAPPING:Cust_Acct.CompanyNum_X\
+            \ | PrepaidWithoutStatement -> SV_MAPPING:Cust_Acct.PrepaidWithoutStatement_B\
+            \ | DepositAccountNumber -> SV_MAPPING:Cust_Acct.DepositAcctNum_X | OpenCasesCount\
+            \ -> SV_MAPPING:Cust_Acct.CustOpenCases_I | PlanName -> SV_MAPPING:PurchasedProduct.Offer_R\
+            \ | ServiceName -> SV_MAPPING:PurchasedProduct.PrimaryService_X | ServiceStatus\
+            \ -> SV_MAPPING:PurchasedProduct.Status_R@ |  TotalPurchasedServices ->\
+            \ SV_MAPPING:Cust_Acct.CountActiveBaseProducts_I | CompanyType -> SV_MAPPING:Cust_Acct.CompanyType_R\
+            \ | CompanyRegistrationNumber -> SV_MAPPING:Cust_Acct.CompanyRegNum_X\
+            \ | CUGId -> SV_MAPPING:Cust_Acct.CorporateIdentifier_X | EmployeeCount\
+            \ -> SV_MAPPING:Cust_Acct.Employee_Count_I | FoundedDate -> SV_MAPPING:Cust_Acct.Founded_Date_T\
+            \ | CustomerRank -> SV_MAPPING:Cust_Acct.CustomerRank_R | VATExempt ->\
+            \ SV_MAPPING:Cust_Acct.VatExempt_B | OfficialLetterRequired -> SV_MAPPING:Cust_Acct.OfficialLetterReq_B\
+            \ | SpecialistCSR -> SV_MAPPING:Cust_Acct.SpecialistCSR_R | PaysForSelf\
+            \ -> SV_MAPPING:Cust_Acct.PaysForSelf_B | PaysBySalary -> SV_MAPPING:Cust_Acct.PaysBySalary_B\
+            \ | PaymentDueDateOffset -> SV_MAPPING:Cust_Acct.PaymentOffsetDays_I |\
+            \ PaymentDueDatePreference -> SV_MAPPING:Cust_Acct.PaymentDuePref_R |\
+            \ TotalChildCustomers -> Derived | VoucherTopUpStatus -> SV_MAPPING:Cust_Acct.VoucherTopUpStatus_B\
+            \ | SecutityGroup -> SV_MAPPING:Cust_Acct.Security_Group | ApartmentOwner\
+            \ -> SV_MAPPING:Cust_Acct.ApartmentOwner_R | EncouragementDiscountPlan\
+            \ -> SV_MAPPING:Cust_Acct.DiscountPlan_R | AdminNumber -> SV_MAPPING:Cust_Acct.AdminNumber_X\
+            \ | DoorLockPin -> SV_MAPPING:Cust_Acct.DoorLockPin_X | OfficerCSR ->\
+            \ SV_MAPPING:Cust_Acct.OfficerCSR_R | ResponsibleTeam -> SV_MAPPING:Cust_Acct.ResponseTeam_R\
+            \ | SubTeam -> SV_MAPPING:Cust_Acct.SubTeam_R | PaymentDueDateUOM -> SV_MAPPING:Cust_Acct.PaymentDueDateUOM_R\
+            \ | MaximumInvoiceAmountPayableCompany -> SV_MAPPING:Cust_Acct.MaxInvAmtPayByComp_R\
+            \ | PartialAmount -> SV_MAPPING:Cust_Acct.MaxInvAmtPayByComp_C | TimeZone\
+            \ -> SV_MAPPING:Cust_Acct.TimeZone_R. Characteristic value type supported:\
+            \ string | InvoiceEmailAddress -> SV_MAPPING:Cust_Acct.InvoiceEmail_X"
+          items:
+            $ref: '#/components/schemas/Characteristic'
+          x-refdata-source: '||RT-api.imp.ALL_CC_CUSTOMER_TYPE||CM-Industry|||||||||||RT-COMPANY_TYPE|||||RT-accl.cust.CUSTOMER_RANK|RT-BOOLEAN|RT-BOOLEAN||RT-BOOLEAN|RT-BOOLEAN||RT-PAYMENT_DAY_PREFERENCE||RT-BOOLEAN||RT-accl.cust.DISCOUNT_PLAN|||CM-User|CM-Work_Group|RT-TEAMBRANCH|RT-inv.DATE_OFFSET_UOM|RT-INVOICE_PAYABLE_COMPANY||||||||||||||||||||||||||||||||||||||||||RT-TIME_ZONE|'
+        relatedParty:
+          type: array
+          description: "Describes the parent / child customer details. Note: Attributes\
+            \ to be displayed are id, role, href and @referredType only."
+          items:
+            $ref: '#/components/schemas/PartyRef'
+        account:
+          type: array
+          description: Describes the customer primary account details.
+          items:
+            $ref: '#/components/schemas/AccountRef'
+        creditProfile:
+          $ref: '#/components/schemas/CreditProfile'
+        contactMedium:
+          type: array
+          description: "Describes the customer contact medium details. Note: phoneNumber\
+            \ will not be returned by GET customer."
+          items:
+            $ref: '#/components/schemas/ContactMedium'
+        paymentMethod:
+          type: array
+          description: Describes the customer payment methods.
+          items:
+            $ref: '#/components/schemas/PaymentMethodRef'
+        taxExemptionCertificate:
+          type: array
+          description: Describes the customer tax exemptions.
+          items:
+            $ref: '#/components/schemas/TaxExemptionCertificate'
+        treatmentExemption:
+          $ref: '#/components/schemas/TreatmentExemption'
+        treatmentSuspension:
+          $ref: '#/components/schemas/TreatmentSuspension'
+      description: Customer details
+    Customer_List:
+      type: object
+      properties:
+        allObjKeys:
+          type: array
+          description: All object keys which met search criteria. This information
+            is used for pagination.
+          items:
+            $ref: '#/components/schemas/ObjectKey'
+        totalObjects:
+          type: integer
+          description: Total number of items matching criteria
+          format: int64
+        customers:
+          type: array
+          description: Describes the list of customers with details
+          items:
+            $ref: '#/components/schemas/Customer'
+        warningMessage:
+          type: string
+          description: Warning message details.
+      description: Customer List
+    Customer_Create:
+      required:
+        - characteristic
+        - engagedParty
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Customer Name, SV_MAPPING:Cust_Acct.CustAcctName_X"
+        status:
+          type: string
+          description: "Customer status, SV_MAPPING:Cust_Acct.CustStatus_R"
+          x-refdata-source: RT-CUSTOMER_NODE_STATUS
+        validFor:
+          $ref: '#/components/schemas/TimePeriod'
+        engagedParty:
+          type: array
+          description: Describes defines people who are contacts for a customer.
+          items:
+            $ref: '#/components/schemas/PartyRef'
+        characteristic:
+          type: array
+          description: "Characteristic name supported: CustomerType | IndustryType\
+            \ | CustomerVatNumber | SalesRepresentative | CompanyNumber | CompanyType\
+            \ | CompanyRegistrationNumber | CUGId | EmployeeCount | FoundedDate |\
+            \ CustomerRank | VATExempt | OfficialLetterRequired | SpecialistCSR |\
+            \ PaysForSelf | PaysBySalary | PaymentDueDateOffset | PaymentDueDatePreference\
+            \ | ApartmentOwner | EncouragementDiscountPlan | AdminNumber | DoorLockPin\
+            \ | OfficerCSR | ResponsibleTeam | SubTeam | PaymentDueDateUOM | MaximumInvoiceAmountPayableCompany\
+            \ | PartialAmount. Characteristic value supported: SV_MAPPING:Cust_Acct.Type_R,\
+            \ SV_MAPPING:Cust_Acct.Industry_R, SV_MAPPING:Cust_Acct.UI_CustomerVATNumber_X,\
+            \ SV_MAPPING:Cust_Acct.SalesRepresentative_R, SV_MAPPING:Cust_Acct.CompanyNum_X,\
+            \ SV_MAPPING:Cust_Acct.CompanyType_R, SV_MAPPING:Cust_Acct.CompanyRegNum_X,\
+            \ SV_MAPPING:Cust_Acct.CorporateIdentifier_X, SV_MAPPING:Cust_Acct.Employee_Count_I,\
+            \ SV_MAPPING:Cust_Acct.Founded_Date_T, SV_MAPPING:Cust_Acct.CustomerRank_R,\
+            \ SV_MAPPING:Cust_Acct.VatExempt_B, SV_MAPPING:Cust_Acct.OfficialLetterReq_B,\
+            \ SV_MAPPING:Cust_Acct.SpecialistCSR_R, SV_MAPPING:Cust_Acct.PaysForSelf_B,\
+            \ SV_MAPPING:Cust_Acct.PaysBySalary_B, SV_MAPPING:Cust_Acct.PaymentOffsetDays_I,\
+            \ SV_MAPPING:Cust_Acct.PaymentDuePref_R, SV_MAPPING:Cust_Acct.ApartmentOwner_R,\
+            \ SV_MAPPING:Cust_Acct.DiscountPlan_R, SV_MAPPING:Cust_Acct.AdminNumber_X,\
+            \ SV_MAPPING:Cust_Acct.DoorLockPin_X, SV_MAPPING:Cust_Acct.OfficerCSR_R,\
+            \ SV_MAPPING:Cust_Acct.ResponseTeam_R, SV_MAPPING:Cust_Acct.SubTeam_R,\
+            \ SV_MAPPING:Cust_Acct.PaymentDueDateUOM_R, SV_MAPPING:Cust_Acct.MaxInvAmtPayByComp_R,\
+            \ SV_MAPPING:Cust_Acct.MaxInvAmtPayByComp_C. Characteristic value type\
+            \ supported: string"
+          items:
+            $ref: '#/components/schemas/Characteristic'
+          x-refdata-source: RT-api.imp.ALL_CC_CUSTOMER_TYPE|CM-Industry|||RT-COMPANY_TYPE||||||RT-accl.cust.CUSTOMER_RANK|RT-BOOLEAN|RT-BOOLEAN||RT-BOOLEAN|RT-BOOLEAN||RT-PAYMENT_DAY_PREFERENCE|RT-YES_NO|RT-accl.cust.DISCOUNT_PLAN|||CM-User|CM-Work_Group|RT-TEAMBRANCH|RT-inv.DATE_OFFSET_UOM|RT-INVOICE_PAYABLE_COMPANY|
+        relatedParty:
+          type: array
+          description: Describes the parent account of a customer.
+          items:
+            $ref: '#/components/schemas/PartyRef'
+        account:
+          type: array
+          description: Describes the customer primary account details.
+          items:
+            $ref: '#/components/schemas/AccountRef'
+        creditProfile:
+          $ref: '#/components/schemas/CreditProfile'
+        contactMedium:
+          type: array
+          description: "Describes the customer contact medium details. Note: phoneNumber\
+            \ will not be used by POST customer."
+          items:
+            $ref: '#/components/schemas/ContactMedium'
+        paymentMethod:
+          type: array
+          description: Describes the customer payment methods.
+          items:
+            $ref: '#/components/schemas/PaymentMethodRef'
+        case:
+          $ref: '#/components/schemas/CaseRef'
+      description: "Skipped properties: id, href"
+    Customer_Update:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Customer Name, SV_MAPPING:Cust_Acct.CustAcctName_X"
+        status:
+          type: string
+          description: "Customer status, SV_MAPPING:Cust_Acct.CustStatus_R"
+          x-refdata-source: RT-CUSTOMER_NODE_STATUS
+        statusChangeReason:
+          type: string
+          description: Customer Status Change Reason. SV_MAPPING:Cust_Acct.CustStatusChangeReason_X.
+          x-refdata-source: RT-accl.cust.statusChangeReason
+        validFor:
+          $ref: '#/components/schemas/TimePeriod'
+        engagedParty:
+          type: array
+          description: "Describes defines people who are contacts for a customer.\
+            \ Note: Only id, role and op are supported."
+          items:
+            $ref: '#/components/schemas/PartyRef'
+        characteristic:
+          type: array
+          description: "Characteristic name supported: CustomerType | IndustryType\
+            \ | CustomerVatNumber | SalesRepresentative | CompanyNumber | CompanyType\
+            \ | CompanyRegistrationNumber | CUGId | EmployeeCount | FoundedDate |\
+            \ CustomerRank | VATExempt | OfficialLetterRequired | SpecialistCSR |\
+            \ PaysForSelf | PaysBySalary | PaymentDueDateOffset | PaymentDueDatePreference\
+            \ | VoucherTopUpStatus | ApartmentOwner | EncouragementDiscountPlan |\
+            \ AdminNumber | DoorLockPin | OfficerCSR | ResponsibleTeam | SubTeam |\
+            \ PaymentDueDateUOM | MaximumInvoiceAmountPayableCompany | PartialAmount.\
+            \ Characteristic value supported: SV_MAPPING:Cust_Acct.Type_R, SV_MAPPING:Cust_Acct.Industry_R,\
+            \ SV_MAPPING:Cust_Acct.UI_CustomerVATNumber_X, SV_MAPPING:Cust_Acct.SalesRepresentative_R,\
+            \ SV_MAPPING:Cust_Acct.CompanyNum_X, SV_MAPPING:Cust_Acct.CompanyType_R,\
+            \ SV_MAPPING:Cust_Acct.CompanyRegNum_X, SV_MAPPING:Cust_Acct.CorporateIdentifier_X,\
+            \ SV_MAPPING:Cust_Acct.Employee_Count_I, SV_MAPPING:Cust_Acct.Founded_Date_T,\
+            \ SV_MAPPING:Cust_Acct.CustomerRank_R, SV_MAPPING:Cust_Acct.VatExempt_B,\
+            \ SV_MAPPING:Cust_Acct.OfficialLetterReq_B, SV_MAPPING:Cust_Acct.SpecialistCSR_R,\
+            \ SV_MAPPING:Cust_Acct.PaysForSelf_B, SV_MAPPING:Cust_Acct.PaysBySalary_B,\
+            \ SV_MAPPING:Cust_Acct.PaymentOffsetDays_I, SV_MAPPING:Cust_Acct.PaymentDuePref_R,\
+            \ SV_MAPPING:Cust_Acct.VoucherTopUpStatus_B, SV_MAPPING:Cust_Acct.ApartmentOwner_R,\
+            \ SV_MAPPING:Cust_Acct.DiscountPlan_R, SV_MAPPING:Cust_Acct.AdminNumber_X,\
+            \ SV_MAPPING:Cust_Acct.DoorLockPin_X, SV_MAPPING:Cust_Acct.OfficerCSR_R,\
+            \ SV_MAPPING:Cust_Acct.ResponseTeam_R, SV_MAPPING:Cust_Acct.SubTeam_R,\
+            \ SV_MAPPING:Cust_Acct.PaymentDueDateUOM_R, SV_MAPPING:Cust_Acct.MaxInvAmtPayByComp_R,\
+            \ SV_MAPPING:Cust_Acct.MaxInvAmtPayByComp_C. Characteristic value type\
+            \ supported: string"
+          items:
+            $ref: '#/components/schemas/Characteristic'
+          x-refdata-source: RT-api.imp.ALL_CC_CUSTOMER_TYPE|CM-Industry|||RT-COMPANY_TYPE||||||RT-accl.cust.CUSTOMER_RANK|RT-BOOLEAN|RT-BOOLEAN||RT-BOOLEAN|RT-BOOLEAN||RT-PAYMENT_DAY_PREFERENCE|RT-BOOLEAN|RT-YES_NO|RT-accl.cust.DISCOUNT_PLAN|||CM-User|CM-Work_Group|RT-TEAMBRANCH|RT-inv.DATE_OFFSET_UOM|RT-INVOICE_PAYABLE_COMPANY|
+        relatedParty:
+          type: array
+          description: "Describes the parent account of a customer. Note: Only id\
+            \ and role are supported."
+          items:
+            $ref: '#/components/schemas/PartyRef'
+        account:
+          type: array
+          description: "Describes the customer primary account details. Note: Only\
+            \ billStructure and paymentPlan are support."
+          items:
+            $ref: '#/components/schemas/AccountRef'
+        creditProfile:
+          $ref: '#/components/schemas/CreditProfile'
+        paymentMethod:
+          type: array
+          description: "Describes the customer payment methods. Note: status is not\
+            \ supported."
+          items:
+            $ref: '#/components/schemas/PaymentMethodRef'
+        contactMedium:
+          type: array
+          description: "Describes the customer contact medium details. Note: phoneNumber\
+            \ is not supported."
+          items:
+            $ref: '#/components/schemas/ContactMedium'
+        taxExemptionCertificate:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxExemptionCertificate'
+        treatmentExemption:
+          $ref: '#/components/schemas/TreatmentExemption'
+        case:
+          $ref: '#/components/schemas/CaseRef'
+        treatmentSuspension:
+          $ref: '#/components/schemas/TreatmentSuspension'
+      description: "Skipped properties: id, href"
+    TimePeriod:
+      required:
+        - startDateTime
+      type: object
+      properties:
+        startDateTime:
+          type: string
+          description: "Start Date format: yyyy-mm-ddThh:nn:ss, SV_MAPPING:Cust_Acct.EffectiveStartDate_T"
+          format: date-time
+        endDateTime:
+          type: string
+          description: "The effective end date Format: yyyy-mm-ddThh:nn:ss, SV_MAPPING:Cust_Acct.EffectiveEndDate_T"
+          format: date-time
+      description: A base / value business entity used to represent a period of time
+        between two timepoints.
+    PartyRef:
+      required:
+        - id
+        - role
+      type: object
+      properties:
+        '@referredType':
+          type: string
+          description: "This is type of related party which it reffers, possible values\
+            \ individual, organization, customer. SV_MAPPING: perestapi.REFERRED_TYPE"
+          x-refdata-source: RT-perestapi.REFERRED_TYPE
+        id:
+          type: string
+          description: "Contact Id, SV_MAPPING:contact.ObjectKey (Primary) or SV_MAPPING:contact.ObjectKey\
+            \ (Secondary) or Customer id, SV_MAPPING:Cust_Acct.ObjectKey"
+        href:
+          type: string
+          description: Reference of the party - <http://<TREREST_HOSTNAME>:<TREREST_PORT>/<Party
+            TreREST URL>/<contact.ObjectKey>customer - <http://<TREREST_HOSTNAME>:<TREREST_PORT>/<customer
+            TreREST URL>/<SV_MAPPING:Cust_Acct.ObjectKey>
+        name:
+          type: string
+          description: "Contact display name, SV_MAPPING:contact.Display_Name, customer\
+            \ display name SV_MAPPING:Cust_Acct.CustAcctName_X or parent customer\
+            \ display name SV_MAPPING:Cust_Acct.ParentCustAcct_R@"
+        role:
+          type: string
+          description: "Primary | Secondary | Parent | Child. SV_MAPPING: perestapi.RELATED_PARTY_ROLE"
+          x-refdata-source: RT-perestapi.RELATED_PARTY_ROLE
+        individualIdentification:
+          type: array
+          items:
+            $ref: '#/components/schemas/IndividualIdentification'
+        partyCharacteristic:
+          type: array
+          description: "Characteristic name supported: PersonalVatNumber | CorporateVatNumber\
+            \ | ContactRole. Characteristic value supported: PersonalVatNumber ->\
+            \ SV_MAPPING:Contact.General10_X | CorporateVatNumber -> SV_MAPPING:Contact.General10_X\
+            \ | ContactRole -> SV_MAPPING:perestapi.imp.CONTACT_ROLE. Characteristic\
+            \ value type supported: string"
+          items:
+            $ref: '#/components/schemas/Characteristic'
+          x-refdata-source: '||RT-perestapi.imp.CONTACT_ROLE'
+        contactMedium:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactMedium'
+        op:
+          type: string
+          description: "add | replace | remove. SV_MAPPING: perestapi.OPERATION"
+          x-refdata-source: RT-perestapi.OPERATION
+      description: Party reference. A party represents an organization or an individual.
+    Characteristic:
+      required:
+        - name
+        - value
+        - valueType
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the characteristic.
+        valueType:
+          type: string
+          description: The type of the value provided.
+        value:
+          type: string
+          description: The value of the characteristic provided as a string.The value
+            of this attribute is depending on the corresponding name attribute value
+            which indirectly determines the correct internal field to map.
+      description: Describes a given characteristic of an object or entity through
+        a name/value pair.
+    AccountRef:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Primary account id or prepaid account id, SV_MAPPING:Cust_Acct.PrimaryAcctID_I\
+            \ or Account.AcctID_I"
+        accountNumber:
+          type: string
+          description: "Primary account number or prepaid account number, SV_MAPPING:Cust_Acct.PrimaryAcctNum_X\
+            \ or Account.Name"
+        accountBalance:
+          type: string
+          description: "ACCOUNT_BALANCE, SV_MAPPING:Cust_Acct.PrimAcctBal_C or Account.AcctBalance_C"
+        href:
+          type: string
+          description: Reference of the account - <http://<TREREST_HOSTNAME>:<TREREST_PORT>/<Account
+            TreREST URL>/<SV_MAPPING:Cust_Acct.PrimaryAcctNum_X>. Not implemented
+            yet.
+        accountType:
+          type: string
+          description: "Account type, SV_MAPPING:Account.Type_R"
+          x-refdata-source: CM-Acct_Num_Type
+        creditLimit:
+          type: string
+          description: "Credit Limit, SV_MAPPING:Account.CreditLimit_C"
+        availableCredit:
+          type: string
+          description: "AVAILABLE_CREDIT, SV_MAPPING:Account.AvailableCredit_C"
+        billStructure:
+          $ref: '#/components/schemas/BillStructure'
+        paymentPlan:
+          $ref: '#/components/schemas/PaymentPlan'
+        dunningCase:
+          $ref: '#/components/schemas/DunningCase'
+      description: Customer primary account or prepaid account for BalanceTransfer
+        reason.
+    BillStructure:
+      type: object
+      properties:
+        cycleSpecification:
+          $ref: '#/components/schemas/CycleSpecification'
+        format:
+          type: array
+          description: The bill invoice format.
+          items:
+            $ref: '#/components/schemas/Format'
+      description: The bill structure that associated to the customer.
+    CycleSpecification:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Schedule Name, SV_MAPPING:Cust_Acct.InvoiceCycle_R"
+        preferredCurrency:
+          type: string
+          description: "Preferred Currency, SV_MAPPING:Cust_Acct.Currency_R"
+          x-refdata-source: CM-Currency
+        reportLevel:
+          type: string
+          description: "Report Level, SV_MAPPING:Cust_Acct.ReportLevel_R"
+          x-refdata-source: RT-REPORT_LEVEL
+        suppressBilling:
+          type: string
+          description: "Suppress Billing Flag, SV_MAPPING:Cust_Acct.SuppressBilling_B,\
+            \ Possible value 1 and 0"
+        suppressCycles:
+          type: string
+          description: "Suppress for number of Cycles, SV_MAPPING:Cust_Acct.SuppressCycles_I"
+        suppressUntilDate:
+          type: string
+          description: "Bill suppress date, SV_MAPPING:Cust_Acct.SuppressDate_T"
+        transferredAccountNumber:
+          type: string
+          description: Transferred account number. SV_MAPPING:Cust_Acct.TransferAccountNumber_X
+        billEndDate:
+          type: string
+          description: Bill End Date. Describes the Bill cycle end date
+      description: The customer bill cycle.
+    Format:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Invoice formate name, SV_MAPPING:CustAcctInvoiceFormat.InvoiceFormat_R"
+          x-refdata-source: CM-InvoiceFormat
+        presentationMedia:
+          $ref: '#/components/schemas/PresentationMedia'
+        characteristic:
+          type: array
+          description: "Characteristic name supported: sendInvoiceTo | contactId |\
+            \ itemized | addressChoice | invoiceLanguage | op | seqnr.Characteristic\
+            \ value supported: CustAcctInvoiceFormat.Contact_R, CustAcctInvoiceFormat.InvoiceItemised_R,\
+            \ CustAcctInvoiceFormat.AddressChoice_R, CustAcctInvoiceFormat.InvoiceLanguage_R,\
+            \ perestapi.OPERATION (op) and CustAcctInvoiceFormat.SequenceNum_I.Characteristic\
+            \ value type supported: string. For PATCH request, the combination of\
+            \ op and seqnr characteristics are mandatory values.They indicate the\
+            \ type of action (add/replace/remove) to perform on an identified invoice\
+            \ format entity, as well as all other attribute values under the format\
+            \ attribute object e.g.: name, presentationMedia and the list of other\
+            \ characteristic values.For GET request, the op characteristic will not\
+            \ be returned.For POST request, the op and seqnr characteristics will\
+            \ not be used."
+          items:
+            $ref: '#/components/schemas/Characteristic'
+          x-refdata-source: "||RT-INVXML.INVOICE_ITEMISED|RT-ADDRESS_CHOICE,RT-INVXML.EMAIL_ADDRESS_CHOICE|RT-INVXML.INVOICE_LANGUAGE|RT-perestapi.OPERATION|"
+      description: The bill invoice format.
+    PresentationMedia:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Invoice Delivery, SV_MAPPING:CustAcctInvoiceFormat.InvoiceDelivery_R"
+          x-refdata-source: AT-invxml.InvoiceDelivery
+      description: The bill invoice presentation media.
+    PaymentPlan:
+      type: object
+      properties:
+        paymentMethod:
+          type: string
+          description: "Payment method, SV_MAPPING:Cust_Acct.PayMethod_R"
+          x-refdata-source: RT-PAYMENT_METHOD
+        paymentLocation:
+          type: string
+          description: "Payment location, SV_MAPPING:Cust_Acct.PaymentLocation_R"
+          x-refdata-source: RT-PAYMENT_LOCATION
+        autoPay:
+          type: string
+          description: "Describes the customer is registered for auto pay or not,\
+            \ SV_MAPPING:RT-YES_NO"
+          x-refdata-source: RT-YES_NO
+      description: The payment plan that associated to the account.
+    CreditProfile:
+      type: object
+      properties:
+        creditRiskRating:
+          type: string
+          description: "Credit rating, SV_MAPPING:Cust_Acct.CreditRating_R"
+          x-refdata-source: RT-TREATMENT_CREDIT_CLASS
+        creditLimit:
+          type: string
+          description: "CREDIT_LIMIT, SV_MAPPING:Cust_Acct.CreditLimit_C"
+        creditLimitCurrency:
+          type: string
+          description: "Credit limit Currency, SV_MAPPING:Cust_Acct.CreditLimitCurrency_R"
+          x-refdata-source: CM-Currency
+        expectedRevenue:
+          type: string
+          description: "Expected revenue, SV_MAPPING:Cust_Acct.ExptRevAmt_C"
+        expRevCurrency:
+          type: string
+          description: "Expected revenue currency, SV_MAPPING:Cust_Acct.ExptRevCurrency_R"
+          x-refdata-source: CM-Currency
+        creditComments:
+          type: string
+          description: "Credit comments, SV_MAPPING:Cust_Acct.CreditComments_X"
+        taxClass:
+          type: string
+          description: "Tax class, SV_MAPPING:Cust_Acct.TaxClass_R"
+          x-refdata-source: RT-TAX_CLASS
+        creditScore:
+          type: string
+          description: "Credit score, SV_MAPPING:Cust_Acct.CreditScore_X"
+      description: Credit profile for the party.
+    PaymentMethodRef:
+      required:
+        - '@type'
+        - details
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: "Payment method type i.e.: bankAccountDebit | bankCard. SV_MAPPING:\
+            \ perestapi.PAYMENT_METHOD_TYPE RT"
+          enum:
+            - bankAccountDebit
+            - bankCard
+          x-refdata-source: RT-perestapi.PAYMENT_METHOD_TYPE
+        details:
+          type: object
+          properties: {}
+          description: If @type is bankAccountDebit then the details attribute object
+            values will be derived from BankAccountDebitType object type. If @type
+            is bankCard then the details attribute object values will be derived from
+            BankCardType object type
+      description: PaymentMethod reference. A payment method defines a specific mean
+        of payment (e.g direct debit).
+    BankAccountDebitType:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+          description: "Account number, SV_MAPPING:Cust_Acct.BankAcctNum_X"
+        BIC:
+          type: string
+          description: "BIC, SV_MAPPING:Cust_Acct.Bank_R"
+          x-refdata-source: RT-BANK
+        owner:
+          type: string
+          description: "Owner, SV_MAPPING:Cust_Acct.BankAcctName_X"
+        paymentLimit:
+          type: string
+          description: "Payment limit, SV_MAPPING:Cust_Acct.BankAcctReference_X"
+        status:
+          type: string
+          description: "BANK_ACCOUNT_STATUS_CODE, SV_MAPPING:Cust_Acct.BankAcctStatus_R"
+          x-refdata-source: RT-BANK_ACCOUNT_STATUS
+      description: Details of a bank account
+    BankCardType:
+      type: object
+      properties:
+        brand:
+          type: string
+          description: "Brand Name, SV_MAPPING:Cust_Acct.CreditCardCompany_R"
+          x-refdata-source: RT-CARD_TYPE
+        cardNumber:
+          type: string
+          description: "Credit Card number, SV_MAPPING:Cust_Acct.CreditCardNumber_X"
+        expirationDate:
+          type: string
+          description: "Credit Card expiry date, SV_MAPPING:Cust_Acct.CreditCardExpiry_X"
+          format: date-time
+        nameOnCard:
+          type: string
+          description: "Name on the credit card, SV_MAPPING:Cust_Acct.CreditCardName_X"
+        cvv:
+          type: string
+          description: "Name on the credit card, SV_MAPPING:Cust_Acct.CreditCardSecurity_X"
+        status:
+          type: string
+          description: "CARD_STATUS_CODE, SV_MAPPING:Cust_Acct.CreditCardStatus_R"
+          x-refdata-source: RT-CARD_STATUS
+      description: Details of a bank card
+    IndividualIdentification:
+      type: object
+      properties:
+        identificationId:
+          type: string
+          description: "SV_MAPPING: NationalId ->Contact.Ul_National_Id_X"
+        identificationType:
+          type: string
+          description: 'NationalId '
+      description: Represents our registration of information used as proof of identity
+        by an individual (national identity card)
+    ContactMedium:
+      required:
+        - characteristic
+        - mediumType
+      type: object
+      properties:
+        mediumType:
+          type: string
+          description: "Type of the contact medium i.e.: PostalAddress | SiteAddress\
+            \ |HomeNumber | WorkNumber | MobileNumber. SV_MAPPING: perestapi.MEDIUM_TYPE\
+            \ RT"
+        characteristic:
+          $ref: '#/components/schemas/MediumCharacteristic'
+      description: Indicates the contact medium that could be used to contact the
+        party.
+    MediumCharacteristic:
+      type: object
+      properties:
+        street1:
+          type: string
+          description: "Line 1, SV_MAPPING: Cust_Acct.PostalLine1_X | Cust_Acct.SiteLine1_X"
+        street2:
+          type: string
+          description: "Line 2, SV_MAPPING: Cust_Acct.PostalLine2_X | Cust_Acct.SiteLine2_X"
+        suburb:
+          type: string
+          description: "Suburban, SV_MAPPING: Cust_Acct.PostalSubDistrict_R | Cust_Acct.SiteSubDistrict_R"
+        city:
+          type: string
+          description: "City, SV_MAPPING: Cust_Acct.PostalCity_R | Cust_Acct.SiteCity_R"
+        postCode:
+          type: string
+          description: "Post Code, SV_MAPPING: Cust_Acct.PostalPostCode_X | Cust_Acct.SitePostCode_X"
+        stateOrProvince:
+          type: string
+          description: "State, SV_MAPPING: Cust_Acct.PostalDistrict_R | Cust_Acct.SiteDistrict_R"
+        country:
+          type: string
+          description: "Country, SV_MAPPING: Cust_Acct.PostalCountry_R | Cust_Acct.SiteCountry_R"
+        addressLine1:
+          type: string
+          description: "Address line 1, SV_MAPPING: Cust_Acct.PostalLine7_X | Cust_Acct.SiteLine7_X"
+        geocode:
+          type: string
+          description: "What3words, SV_MAPPING: Cust_Acct.PostalGeocode_X | Cust_Acct.SiteGeocode_X"
+        subDoorNumber:
+          type: string
+          description: "Sub Door number, SV_MAPPING: Cust_Acct.PostalSubDoorNumber_X\
+            \ | Cust_Acct.SiteSubDoorNumber_X"
+        genericAddress:
+          type: string
+          description: "Generic Address when the actual address is not known, SV_MAPPING:\
+            \ Cust_Acct.PostalGenericAddress_X | Cust_Acct.SiteGenericAddress_X"
+        phoneNumber:
+          type: string
+          description: "These are the phone numbers of the primary contact of customer.\
+            \ HomeNumber->SV_MAPPING:Contact.HomePhone_X,WorkNumber->SV_MAPPING:Contact.WorkPhone_X,\
+            \ MobileNumber->SV_MAPPING:Contact.MobilePhone_X"
+      description: Describes the contact medium characteristics that could be used
+        to contact a party
+    TaxExemptionCertificate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Certificate, SV_MAPPING: CustAcctList.ResultFact01_X"
+        documentId:
+          type: string
+          description: "Document id, SV_MAPPING: CustAcctList.ResultFact04_X"
+        description:
+          type: string
+          description: "Document Description, SV_MAPPING: CustAcctList.ResultFact05_X"
+        validFor:
+          $ref: '#/components/schemas/TimePeriod'
+        taxDefinition:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxDefinition'
+      description: "A tax exemption certificate represents a tax exemption granted\
+        \ to a customer by a tax jurisdiction which may be a city, state, country."
+    TaxDefinition:
+      type: object
+      properties:
+        taxType:
+          type: string
+          description: "Tax Association Code, SV_MAPPING: CustAcctList.IndexValue01_X"
+      description: Reference of a tax definition.
+    TreatmentExemption:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Treatment exemption derived attribute id, SV_MAPPING: CustAcctList.CustListID_I"
+        exemption:
+          type: string
+          description: "Treatment exemption flag, SV_MAPPING: CustAcctList.IndexValue01_X"
+          x-refdata-source: RT-BOOLEAN
+        description:
+          type: string
+          description: "Treatment exemption description, SV_MAPPING: CustAcctList.Description_X"
+      description: Customer treatment exemption.
+    TreatmentSuspension:
+      type: object
+      properties:
+        suspensionReasonCode:
+          type: string
+          description: "Treatment Suspension reason code, fetched from customer DA\
+            \ List. If suspensionReasonCode is not passed in the request or null then\
+            \ its delete suspension record from Treatment Suspension Attributes customer\
+            \ DA.SV_MAPPING:CustAcctList.ResultFact01_X"
+          x-refdata-source: RT-treatment.imp.SUSPENSION_REASON
+        suspensionEndDate:
+          type: string
+          description: "Suspension End Date,fetched from customer DA List. SV_MAPPING:CustAcctList.ResultFact02_X"
+          format: date-time
+        id:
+          type: string
+          description: "Treatment suspension derived attribute id, this is only used\
+            \ in case of GET Customer API. SV_MAPPING: CustAcctList.CustListID_I"
+      description: Customer treatment suspension.
+    DunningCase:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Treatment query id. SV_MAPPING: CustAcctQuery.QueryID_I"
+        name:
+          type: string
+          description: "Treatment query number. SV_MAPPING: CustAcctQuery.Name"
+        href:
+          type: string
+          description: Not implemented yet
+        status:
+          type: string
+          description: "Treatment query status. SV_MAPPING: CustAcctQuery.QueryStatus_R"
+        currentAmountDue:
+          $ref: '#/components/schemas/Money'
+      description: Customer treatment process.
+    ObjectKey:
+      type: integer
+      description: All object keys matching search criteria returned in the response
+        body. Array of objectKey
+      format: int64
+    CaseRef:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Identifier of the Case, SV_MAPPING:Case.ObjectKey"
+        href:
+          type: string
+          description: Reference of the case - <http://<TREREST_HOSTNAME>:<TREREST_PORT>/<case
+            TreREST URL>/<SV_MAPPING:Case.ObjectKey>
+        status:
+          type: string
+          description: "The Status of Case, Possible Values New/Open/Closed. SV_MAPPING:Case.Status"
+        name:
+          type: string
+          description: "The name of the case, SV_MAPPING:Case.Name"
+      description: The Case data structure
+    Money:
+      type: object
+      properties:
+        unit:
+          type: string
+          description: "Currency (ISO4217 norm uses 3 letters to define the currency).\
+            \ SV_MAPPING: CURRENCY_TRE_V.CURRENCY_SYMBOL"
+        value:
+          type: number
+          description: A positive floating-point number
+          format: float
+      description: A base / value business entity used to represent money
+    Error:
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          type: string
+          description: "Application relevant detail, defined in the API or a common\
+            \ list."
+        reason:
+          type: string
+          description: Explanation of the reason for the error which can be shown
+            to a client user.
+        message:
+          type: string
+          description: Details information related to the error which can be shown
+            to a client user.
+        action:
+          type: string
+          description: Corrective actions for the error which can be shown to a client
+            user.
+        status:
+          type: string
+          description: HTTP Error code extension
+        referenceError:
+          type: string
+          description: URI of documentation describing the error.
+          format: uri
+        '@baseType':
+          type: string
+          description: "When sub - classing, this defines the super - class."
+        '@schemaLocation':
+          type: string
+          description: A URI to a JSON - Schema file that defines additional attributes
+            and relationships
+          format: uri
+        '@type':
+          type: string
+          description: "'Error' indicates that the error message is of server error\
+            \ message, 'Warning' indicates that the error message is of server warning\
+            \ message"
+        errorParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorParam'
+      description: "Used when an API throws an Error, typically with a HTTP error\
+        \ response-code (3xx, 4xx, 5xx)"
+    ErrorParam:
+      type: string
+      description: Represents error parameters that are used in the construction of
+        the error message.
+x-original-swagger-version: "2.0"

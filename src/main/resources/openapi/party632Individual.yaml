@@ -1,0 +1,1065 @@
+openapi: 3.0.1
+info:
+  title: Party Management
+  description: 'This is Swagger specification for the TMF Party Management. '
+  version: "$Revision: 1.22 $"
+servers:
+  - url: http://serverRoot/api/party-management/v4/
+tags:
+  - name: individual
+paths:
+  /individual:
+    get:
+      tags:
+        - individual
+      summary: List or find Individual objects
+      description: This operation list or find Individual entities
+      operationId: listIndividual
+      parameters:
+        - name: objKeys
+          in: query
+          description: Comma-separated object keys for which details to be retrieved.
+            Mandatory when retrievalType is 3
+          schema:
+            type: string
+        - name: retrievalLimit
+          in: query
+          description: Limit to the number of objects retrieved. Mandatory when retrievalType
+            is 1
+          schema:
+            type: integer
+            format: int64
+        - name: retrievalType
+          in: query
+          description: "Type of retrieval of data. 1 -> retrieves the list of all object\
+          \ keys along with the number of object details mentioned in retrievalLimit,\
+          \ 2 -> retrieves the list of all object keys, 3 -> retrieves object details\
+          \ for the keys mentioned in objKeys"
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: fields
+          in: query
+          description: Comma-separated properties to be provided in response
+          schema:
+            type: string
+        - name: searchKey
+          in: query
+          description: "Search Keys on which data needs to be filtered. Valid Values:\
+          \ Name | MSISDN | IMSI | National ID | Email ID | Passport ID.  These values\
+          \ will be retrieved from RT perestapi.imp.contact.GlobalSrchFilters"
+          schema:
+            type: string
+            x-refdata-source: RT-perestapi.imp.contact.GlobalSrchFilters
+          x-refdata-source: RT-perestapi.imp.contact.GlobalSrchFilters
+        - name: searchValue
+          in: query
+          description: Value of the searchKey passed.
+          schema:
+            type: string
+        - name: sortKey
+          in: query
+          description: To sort the response based on sortkeys. Possible values name.
+            These values will be retrieved from RT perestapi.imp.contact.SORT_KEY
+          schema:
+            type: string
+            x-refdata-source: RT-perestapi.imp.contact.SORT_KEY
+          x-refdata-source: RT-perestapi.imp.contact.SORT_KEY
+        - name: sortOrder
+          in: query
+          description: "To sort the response based on sort order. Possible value ascending,\
+          \ descending"
+          schema:
+            type: string
+        - name: contactType
+          in: query
+          description: "contact type of the contact to be retrieved.Comma seperated\
+          \ multiple contact types can also be provided. Possible values: Residential,\
+          \ Business, Registered Prepaid, Anonymous Prepaid. These values will be\
+          \ retrieved from RT api.imp.PERSON_TYPE"
+          schema:
+            type: string
+            x-refdata-source: RT-api.imp.PERSON_TYPE
+          x-refdata-source: RT-api.imp.PERSON_TYPE
+        - name: customerId
+          in: query
+          description: "All assiciated contacts of the customer node id to be retrieved.\
+          \ SV_MAPPING: Cust_Acct.XSID_I"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Individual_List'
+        "400":
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "405":
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "409":
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - individual
+      summary: Creates a Individual
+      description: This operation creates a Individual entity.
+      operationId: createIndividual
+      parameters:
+        - name: Ignored-Warning
+          in: header
+          description: To store warning message IDs in comma separated string that will
+            be ignored by the server
+          schema:
+            type: string
+      requestBody:
+        description: The Individual to be created
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/Individual_Create'
+        required: true
+      responses:
+        "201":
+          description: Created
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Individual'
+        "400":
+          description: Bad Request
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: Forbidden
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "405":
+          description: Method Not allowed
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "409":
+          description: Conflict
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: individual
+  /individual/{id}:
+    get:
+      tags:
+        - individual
+      summary: Retrieves a Individual by ID
+      description: This operation retrieves a Individual entity. Attribute selection
+        is enabled for all first level attributes.         The id parameter cannot
+        contain a space which is considered as unsave character and would be encoded
+        by HTTP protocol
+      operationId: retrieveIndividual
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the Individual
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Comma-separated properties to provide in response.The field names
+            should be from the first level of property names as defined in Individual
+            schema.
+          schema:
+            type: string
+        - name: effectiveDate
+          in: query
+          description: "To search a specific party history record details based on a\
+          \ given effective date value - Format: yyyy-mm-ddThh:nn:ss"
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Individual'
+        "400":
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "405":
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "409":
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - individual
+      summary: Updates partially a Individual
+      description: This operation updates partially a Individual entity.The id parameter
+        cannot contain a space which is considered as unsave character and would be
+        encoded by HTTP protocol
+      operationId: patchIndividual
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the Individual
+          required: true
+          schema:
+            type: string
+        - name: Ignored-Warning
+          in: header
+          description: To store warning message IDs in comma separated string that will
+            be ignored by the server
+          schema:
+            type: string
+      requestBody:
+        description: The Individual to be updated
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/Individual_Update'
+        required: true
+      responses:
+        "200":
+          description: Updated
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Individual'
+        "400":
+          description: Bad Request
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: Forbidden
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Not Found
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "405":
+          description: Method Not allowed
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "409":
+          description: Conflict
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          headers:
+            Ignored-Warning:
+              description: To store warning message IDs in comma separated string
+                of same API call that have been successfully ignored in server
+              schema:
+                type: string
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: individual
+components:
+  schemas:
+    Characteristic:
+      required:
+        - name
+        - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: ResidencyStatus | CompanyName | CorporateVatNumber | IndustryType
+            | SalesRepresentative | PersonalVatNumber | CreationDate | LastInteractionDate
+            | OpenCasesCount | VisaType | VisaNumber | VisaExpiry | Employer | YearlyEarnings
+            | YearlyEarningsCurrency | PreferredCall | PreferredEmail | PreferredSMS
+            | PreferredLanguage | ConvenientTime | StoreAddress | AssignedUser | ConvenientStartTime
+            | ConvenientEndTime | AdditionalMobileSubscriptionAllowed | Classification
+            | Deceased | WhitelistEndDate | Blacklisted | ThisIndividualPartyRole
+            | SecutityGroup | ContactRole | SkipBOMPosting | VASPin | PreferredCommunicationMethod
+            | DedicatedCSRHotline | RequestEraseIndCode | ErasureRequestedDate | TimeZone
+        valueType:
+          type: string
+          description: ResidencyStatus -> string | CompanyName -> string |CorporateVatNumber
+            -> string | IndustryType -> string | SalesRepresentative -> string | PersonalVatNumber
+            -> string | CreationDate -> string | LastInteractionDate -> string | OpenCasesCount
+            -> string | VisaType -> string | VisaNumber -> string | VisaExpiry ->
+            string | Employer -> string | YearlyEarnings -> string | YearlyEarningsCurrency
+            -> string |  PreferredCall -> string | PreferredEmail -> string | PreferredSMS
+            -> string | PreferredLanguage -> string | ConvenientTime -> string | StoreAddress
+            -> string | AssignedUser -> string | ConvenientStartTime -> string | ConvenientEndTime
+            -> string | AdditionalMobileSubscriptionAllowed -> string | Classification
+            -> string | Deceased -> string | WhitelistEndDate -> string | Blacklisted
+            -> string | ThisIndividualPartyRole -> string | SecutityGroup -> string
+            | ContactRole -> string | SkipBOMPosting -> string | VASPin -> string
+            | PreferredCommunicationMethod -> string | DedicatedCSRHotline -> string
+            | RequestEraseIndCode -> string | ErasureRequestedDate -> string | TimeZone
+            -> string.
+        value:
+          type: string
+          description: "The value of this attribute is depending on the corresponding\
+            \ name attribute which will determine the exact internal field to map.\
+            \ ResidencyStatus-> Residency Status RT -> SV_MAPPING:Contact.ResidencyStatus_R\
+            \ | CompanyName -> SV_MAPPING:Contact.OfficialName_X | CorporateVatNumber\
+            \ -> SV_MAPPING:Contact.General10_X | IndustryType -> SV_MAPPING:Contact.General9_X\
+            \ | SalesRepresentative -> SV_MAPPING:Contact.OperatorID_R |  PersonalVatNumber\
+            \ -> SV_MAPPING:Contact.General10_X | CreationDate -> SV_MAPPING:Case.Date_Received\
+            \ | LastInteractionDate -> SV_MAPPING:Contact.Last_Update | OpenCasesCount\
+            \ -> SV_MAPPING:Contact.ContactOpenCases_I | VisaType -> SV_MAPPING:Contact.Contact.VisaType_R\
+            \ | VisaNumber -> SV_MAPPING:Contact.VisaNum_X | VisaExpiry -> SV_MAPPING:VisaExpiryDate_T\
+            \ | Employer -> SV_MAPPING:Contact.BusinessName_X | YearlyEarnings ->\
+            \ SV_MAPPING:Contact.YearlyEarnings_C | YearlyEarningsCurrency -> SV_MAPPING:Contact.YearlyEarningsCurrency_R\
+            \ | PreferredCall -> SV_MAPPING:UI_ContactPreference.PreferredCall_B |\
+            \ PreferredEmail -> SV_MAPPING:UI_ContactPreference.PreferredEmail_B |\
+            \ PreferredSMS -> SV_MAPPING:UI_ContactPreference.PreferredSMS_B | PreferredLanguage\
+            \ -> SV_MAPPING: UI_ContactPreference.PreferredLanguage_R | ConvenientTime\
+            \ -> SV_MAPPING:UI_ContactPreference.ConvenientTime_R | StoreAddress ->\
+            \ SV_MAPPING:UI_ContactPreference.Store_X | AssignedUser -> SV_MAPPING:UI_ContactPreference.AssignedUser_R\
+            \ | ConvenientStartTime -> SV_MAPPING:UI_ContactPreference.ConvenientStartTime_T\
+            \ | ConvenientEndTime -> SV_MAPPING:UI_ContactPreference.ConvenientEndTime_T\
+            \ | AdditionalMobileSubscriptionAllowed -> SV_MAPPING:Contact.AddnlSubcnAllwd_B\
+            \ | Classification -> SV_MAPPING:Contact.Classification_R | Deceased ->\
+            \ SV_MAPPING:Contact.IsDeceased_B | WhitelistEndDate -> SV_MAPPING:Contact.WhitelistEndDate_T\
+            \ | Blacklisted -> SV_MAPPING:Contact.IsBlacklisted_B | SV_MAPPING: perestapi.RELATED_PARTY_ROLE\
+            \ | SecutityGroup -> SV_MAPPING:Contact.Security_Group | ContactRole ->\
+            \ SV_MAPPING:SV_MAPPING:CustAcct_Contact.UI_Role_R | SkipBOMPosting ->\
+            \ SV_MAPPING:Contact.Skip_BOM_Posting_T | VASPin -> SV_MAPPING:Contact.VasPin_I\
+            \ | PreferredCommunicationMethod -> SV_MAPPING:Contact.PreferredCommsMethod_R\
+            \ | DedicatedCSRHotline -> SV_MAPPING:Contact.DedicatedCSRNum_X | RequestEraseIndCode\
+            \ -> SV_MAPPING:Contact.ErasureRequested_B | RequestEraseIndCode -> SV_MAPPING:Contact.ErasureRequestedDate_T\
+            \ | TimzeZone -> SV_MAPPING:Contact.TimeZone_R"
+          x-refdata-source: RT-RESIDENCY_STATUS|||||||||RT-VISA_TYPE|||||CM-Currency||||CM-Language_Spoken|CM-Convenient_Time|||||RT-BOOLEAN|RT-CONTACT_CLASSIFICATION|RT-BOOLEAN||RT-BOOLEAN|RT-perestapi.RELATED_PARTY_ROLE||perestapi.imp.CONTACT_ROLE|||RT-PREFERRED_COMMS_METHOD|||RT-BOOLEAN|RT-TIME_ZONE
+      description: Describes a given characteristic of an object or entity through
+        a name/value pair.
+    ContactMedium:
+      type: object
+      properties:
+        mediumType:
+          type: string
+          description: Medium type which can be either of HomeAddress | PostalAddress
+            | WorkAddress | HomeNumber | WorkNumber | MobileNumber | FaxNumber | DefaultEmailAddress
+            | SecondaryEmailAddress | VerifiedSecondaryEmailAddress
+        characteristic:
+          $ref: '#/components/schemas/MediumCharacteristic'
+      description: Indicates the contact medium that could be used to contact the
+        party.
+    Disability:
+      type: object
+      properties:
+        disabilityName:
+          type: string
+          description: "DISABILITY_TYPE RT, SV_MAPPING:Contact.DisabilityType_R"
+          x-refdata-source: RT-DISABILITY_TYPE
+      description: Lack or inadequate strength or ability.
+    Individual:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Person Id, SV_MAPPING:Contact.XSID "
+        href:
+          type: string
+          description: Reference of the party - <http://<PEREST_HOSTNAME>:<PEREST_PORT>/<Party
+            PEREST URL>/<Contact.XSID>
+        validFor:
+          $ref: '#/components/schemas/TimePeriod'
+        birthDate:
+          type: string
+          description: "Format: yyyy-mm-ddThh:nn:ss, SV_MAPPING:Contact.BirthDate_T"
+          format: date-time
+        familyName:
+          type: string
+          description: SV_MAPPING:Contact.LastName_X
+        familyNamePrefix:
+          type: string
+          description: Family Name Prefix. SV_MAPPING:Contact.LastName2_X
+        gender:
+          type: string
+          description: "Gender RT, SV_MAPPING:Contact.Sex_R"
+          x-refdata-source: RT-SEX
+        givenName:
+          type: string
+          description: SV_MAPPING:Contact.FirstName_X
+        legalName:
+          type: string
+          description: SV_MAPPING:Contact.OfficialName_X
+        maritalStatus:
+          type: string
+          description: "MARITAL_STATUS RT, SV_MAPPING:Contact.MaritalStatus_R"
+          x-refdata-source: RT-MARITAL_STATUS
+        nationality:
+          type: string
+          description: "Nationality RT, SV_MAPPING:Contact.Nationality_R"
+          x-refdata-source: RT-NATIONALITY
+        preferredGivenName:
+          type: string
+          description: SV_MAPPING:Contact.PreferredName_X
+        title:
+          type: string
+          description: "Title RT, SV_MAPPING:Contact.Title_R"
+          x-refdata-source: RT-TITLE
+        case:
+          $ref: '#/components/schemas/CaseRef'
+        contactMedium:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactMedium'
+        disability:
+          type: array
+          items:
+            $ref: '#/components/schemas/Disability'
+        individualIdentification:
+          type: array
+          items:
+            $ref: '#/components/schemas/IndividualIdentification'
+        languageAbility:
+          type: array
+          items:
+            $ref: '#/components/schemas/LanguageAbility'
+        partyCharacteristic:
+          type: array
+          items:
+            $ref: '#/components/schemas/Characteristic'
+        relatedParty:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedParty'
+        skill:
+          type: array
+          items:
+            $ref: '#/components/schemas/Skill'
+        status:
+          $ref: '#/components/schemas/IndividualStateType'
+      description: "Individual represents a single human being (a man, woman or child).\
+        \ The individual can be a customer, an employee or any other person that the\
+        \ organization needs to store information about."
+    Individual_List:
+      type: object
+      properties:
+        allObjKeys:
+          type: array
+          description: All object keys which met search criteria. This information
+            is used for pagination.
+          items:
+            $ref: '#/components/schemas/ObjectKey'
+        totalObjects:
+          type: integer
+          description: Total number of items matching criteria
+          format: int64
+        individuals:
+          type: array
+          description: Describes the list of Individuals with details
+          items:
+            $ref: '#/components/schemas/Individual'
+        warningMessage:
+          type: string
+          description: Warning message details.
+      description: Individual List
+    Individual_Create:
+      required:
+        - contactMedium
+        - familyName
+        - givenName
+        - relatedParty
+      type: object
+      properties:
+        id:
+          type: string
+          description: SV_MAPPING:Contact.XSID
+        effectiveDate:
+          $ref: '#/components/schemas/EffectiveDate'
+        birthDate:
+          type: string
+          description: "Format: yyyy-mm-ddThh:nn:ss, SV_MAPPING:Contact.BirthDate_T"
+          format: date-time
+        familyName:
+          type: string
+          description: SV_MAPPING:Contact.LastName_X
+        familyNamePrefix:
+          type: string
+          description: Family Name Prefix. SV_MAPPING:Contact.LastName2_X
+        gender:
+          type: string
+          description: "Gender RT, SV_MAPPING:Contact.Sex_R"
+          x-refdata-source: RT-SEX
+        givenName:
+          type: string
+          description: SV_MAPPING:Contact.FirstName_X
+        legalName:
+          type: string
+          description: SV_MAPPING:Contact.OfficialName_X
+        maritalStatus:
+          type: string
+          description: "MARITAL_STATUS RT, SV_MAPPING:Contact.MaritalStatus_R"
+          x-refdata-source: RT-MARITAL_STATUS
+        nationality:
+          type: string
+          description: "Nationality RT, SV_MAPPING:Contact.Nationality_R"
+          x-refdata-source: RT-NATIONALITY
+        preferredGivenName:
+          type: string
+          description: SV_MAPPING:Contact.PreferredName_X
+        title:
+          type: string
+          description: "Title RT, SV_MAPPING:Contact.Title_R"
+          x-refdata-source: RT-TITLE
+        case:
+          $ref: '#/components/schemas/CaseRef'
+        contactMedium:
+          type: array
+          description: At least one of HomeAddress | PostalAddress | WorkAddress is
+            mandatory. At least one of HomeNumber | WorkNumber | MobileNumber |FaxNumber
+            is mandatory
+          items:
+            $ref: '#/components/schemas/ContactMedium'
+        disability:
+          type: array
+          items:
+            $ref: '#/components/schemas/Disability'
+        individualIdentification:
+          type: array
+          items:
+            $ref: '#/components/schemas/IndividualIdentification'
+        languageAbility:
+          type: array
+          items:
+            $ref: '#/components/schemas/LanguageAbility'
+        partyCharacteristic:
+          type: array
+          items:
+            $ref: '#/components/schemas/Characteristic'
+        relatedParty:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedParty'
+        skill:
+          type: array
+          items:
+            $ref: '#/components/schemas/Skill'
+        status:
+          $ref: '#/components/schemas/IndividualStateType'
+      description: |-
+        Individual represents a single human being (a man, woman or child). The individual can be a customer, an employee or any other person that the organization needs to store information about.
+        Skipped properties: id,href
+    Individual_Update:
+      type: object
+      properties:
+        effectiveDate:
+          $ref: '#/components/schemas/EffectiveDate'
+        birthDate:
+          type: string
+          description: "Format: yyyy-mm-ddThh:nn:ss, SV_MAPPING:Contact.BirthDate_T"
+          format: date-time
+        familyName:
+          type: string
+          description: SV_MAPPING:Contact.LastName_X
+        familyNamePrefix:
+          type: string
+          description: Family Name Prefix. SV_MAPPING:Contact.LastName2_X
+        gender:
+          type: string
+          description: "Gender RT, SV_MAPPING:Contact.Sex_R"
+          x-refdata-source: RT-SEX
+        givenName:
+          type: string
+          description: SV_MAPPING:Contact.FirstName_X
+        legalName:
+          type: string
+          description: SV_MAPPING:Contact.OfficialName_X
+        maritalStatus:
+          type: string
+          description: "MARITAL_STATUS RT, SV_MAPPING:Contact.MaritalStatus_R"
+          x-refdata-source: RT-MARITAL_STATUS
+        nationality:
+          type: string
+          description: "Nationality RT, SV_MAPPING:Contact.Nationality_R"
+          x-refdata-source: RT-NATIONALITY
+        preferredGivenName:
+          type: string
+          description: SV_MAPPING:Contact.PreferredName_X
+        title:
+          type: string
+          description: "Title RT, SV_MAPPING:Contact.Title_R"
+          x-refdata-source: RT-TITLE
+        contactMedium:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactMedium'
+        disability:
+          type: array
+          items:
+            $ref: '#/components/schemas/Disability'
+        individualIdentification:
+          type: array
+          items:
+            $ref: '#/components/schemas/IndividualIdentification'
+        languageAbility:
+          type: array
+          items:
+            $ref: '#/components/schemas/LanguageAbility'
+        partyCharacteristic:
+          type: array
+          items:
+            $ref: '#/components/schemas/Characteristic'
+        relatedParty:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedParty'
+        skill:
+          type: array
+          items:
+            $ref: '#/components/schemas/Skill'
+        status:
+          $ref: '#/components/schemas/IndividualStateType'
+      description: |-
+        Individual represents a single human being (a man, woman or child). The individual can be a customer, an employee or any other person that the organization needs to store information about.
+        Skipped properties: id,href
+    IndividualIdentification:
+      type: object
+      properties:
+        identificationId:
+          type: string
+          description: DriversLicense->SV_MAPPING:Contact.DriverLicenseNum_X | Individual->SV_MAPPING:Contact.Password_X
+            | Passport->SV_MAPPING:Contact.PassportNum_X | SocialSecurityNumber->
+            SV_MAPPING:Contact.SocialSecurityNum_X | NationalId -> SV_MAPPING:Contact.UI_National_Id_X
+        identificationType:
+          type: string
+          description: 'DriversLicense | Individual | Passport | SocialSecurityNumber
+            | NationalId '
+      description: "Represents our registration of information used as proof of identity\
+        \ by an individual (passport, national identity card, drivers license, social\
+        \ security number, birth certificate)"
+    IndividualStateType:
+      type: string
+      description: "Person Status RT, SV_MAPPING:Contact.Status"
+      x-refdata-source: RT-PERSON_STATUS
+    LanguageAbility:
+      type: object
+      properties:
+        speakingProficiency:
+          type: string
+          description: "Spoken Language RT, SV_MAPPING:Contact.SpokenLanguage_R"
+          x-refdata-source: RT-SPOKEN_LANGUAGE
+        writingProficiency:
+          type: string
+          description: "Written Language RT, SV_MAPPING:Contact.WrittenLanguage_R"
+          x-refdata-source: RT-WRITTEN_LANGUAGE
+      description: Ability of an individual to understand or converse in a language.
+    MediumCharacteristic:
+      type: object
+      properties:
+        city:
+          type: string
+          description: HomeAddress ->SV_MAPPING:Contact.City_R | WorkAddress -> SV_MAPPING:Contact.WorkCity_R
+            | PostalAddress -> SV_MAPPING:Contact.PostalCity_R
+        country:
+          type: string
+          description: HomeAddress -> SV_MAPPING:Contact.Country_R |  WorkAddress
+            -> SV_MAPPING:Contact.WorkCountry_R | PostalAddress -> SV_MAPPING:Contact.PostalCountry_R
+        emailAddress:
+          type: string
+          description: DefaultEmailAddress -> SV_MAPPING:Contact.EmailAddress_X
+        verified:
+          type: string
+          description: Specifies Primary Email is verified or not. DefaultEmailAddress
+            -> SV_MAPPING:ContactComms.Verified_B
+        secondaryEmailAddress:
+          type: array
+          description: This will be used for mediumType SecondaryEmailAddress
+          items:
+            $ref: '#/components/schemas/AdditionalEmailAddress'
+        secondaryEmailAddressWithVerification:
+          type: array
+          description: This will be used for mediumType VerifiedSecondaryEmailAddress
+          items:
+            $ref: '#/components/schemas/AdditionalEmailAddressWithVerification'
+        faxNumber:
+          type: string
+          description: FaxNumber -> SV_MAPPING:Contact.FaxPhone_X
+        phoneNumber:
+          type: string
+          description: HomeNumber -> SV_MAPPING:Contact.HomePhone_X | WorkNumber ->
+            SV_MAPPING:Contact.WorkPhone_X | MobileNumber -> SV_MAPPING:Contact.MobilePhone_X
+        postCode:
+          type: string
+          description: HomeAddress -> SV_MAPPING:Contact.HomePostCode_X | WorkAddress
+            -> SV_MAPPING:Contact.WorkPostCode_X | PostalAddress -> SV_MAPPING:Contact.PostalPostCode_X
+        stateOrProvince:
+          type: string
+          description: HomeAddress -> SV_MAPPING:Contact.District_R | WorkAddress
+            -> SV_MAPPING:Contact.WorkDistrict_R | PostalAddress -> SV_MAPPING:Contact.PostalDistrict_R
+        street1:
+          type: string
+          description: HomeAddress -> SV_MAPPING:Contact.HomeLine1_X | WorkAddress
+            -> SV_MAPPING:Contact.WorkLine1_X | PostalAddress -> SV_MAPPING:Contact.PostalLine1_X
+        street2:
+          type: string
+          description: HomeAddress -> SV_MAPPING:Contact.HomeLine2_X | WorkAddress
+            -> SV_MAPPING:Contact.WorkLine2_X | PostalAddress -> SV_MAPPING:Contact.PostalLine2_X
+        suburb:
+          type: string
+          description: HomeAddress -> SV_MAPPING:Contact.SubDistrict_R | WorkAddress
+            -> SV_MAPPING:Contact.WorkSubDistrict_R | PostalAddress -> SV_MAPPING:Contact.PostalSubDistrict_R
+        addressLine1:
+          type: string
+          description: HomeAddress -> SV_MAPPING:Contact.HomeLine7_X | WorkAddress
+            -> SV_MAPPING:Contact.WorkLine7_X | PostalAddress -> SV_MAPPING:Contact.PostalLine7_X
+        geocode:
+          type: string
+          description: HomeAddress -> SV_MAPPING:Contact.HomeGeocode_X | WorkAddress
+            -> SV_MAPPING:Contact.WorkGeocode_X | PostalAddress -> SV_MAPPING:Contact.PostalGeocode_X
+        subDoorNumber:
+          type: string
+          description: HomeAddress -> SV_MAPPING:Contact.HomeSubDoorNumber_X | PostalAddress
+            -> SV_MAPPING:Contact.PostalSubDoorNumber_X
+        genericAddress:
+          type: string
+          description: HomeAddress -> SV_MAPPING:Contact.HomeGenericAddress_X | PostalAddress
+            -> SV_MAPPING:Contact.PostalGenericAddress_X
+      description: Describes the contact medium characteristics that could be used
+        to contact a party. Its value depends on the specified medium type
+    AdditionalEmailAddress:
+      type: string
+      description: Array of secondary email addresses. SV_MAPPING:ContactComms.Address_X
+    AdditionalEmailAddressWithVerification:
+      type: object
+      properties:
+        emailAddress:
+          type: string
+          description: Secondary email addresses. SV_MAPPING:ContactComms.Address_X
+        verified:
+          type: string
+          description: Specifies secondary emails are verified or not. SV_MAPPING:ContactComms.Verified_B
+      description: Array of secondary email addresses(If multiple) with verification.
+    RelatedParty:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: It will be unique Id of the entity mentioned. For personType
+            SV_MAPPING:Contact_Type.XSID | For customer SV_MAPPING:CustAcct_Contact.Cust_Acct.ObjectKey
+        href:
+          type: string
+          description: Reference of the related entity.customer - <http://<PEREST_HOSTNAME>:<PEREST_PORT>/<customer
+            PEREST URL>/<SV_MAPPING:Cust_Acct.ObjectKey>
+        name:
+          type: string
+          description: For personType SV_MAPPING:Contact.Type | For customer SV_MAPPING:Cust_Acct.CustAcctName_X
+        '@referredType':
+          type: string
+          description: "The actual type of the target instance when needed for disambiguation.\
+            \ Valid Values: personType | customer"
+          x-refdata-source: RT-perestapi.REFERRED_TYPE
+        contactMedium:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactMedium'
+        partyCharacteristic:
+          type: array
+          items:
+            $ref: '#/components/schemas/Characteristic'
+      description: Related Entity reference.A related party defines party or party
+        role linked to a specific entity.
+    Skill:
+      type: object
+      properties:
+        skillName:
+          type: string
+          description: "Profession RT, SV_MAPPING:Contact.Profession_R"
+          x-refdata-source: RT-PROFESSION
+      description: "Skills evaluated for an individual with a level and possibly with\
+        \ a limited validity when an obsolescence is defined(Ex: the first - aid certificate\
+        \ first level is limited to one year and an update training is required each\
+        \ year to keep the level)."
+    TimePeriod:
+      type: object
+      properties:
+        endDateTime:
+          type: string
+          description: "End of the time period. Format: yyyy-mm-ddThh:nn:ss, SV_MAPPING:Contact.EffectiveEndDate_T"
+          format: date-time
+        startDateTime:
+          type: string
+          description: "Start of the time period. Format: yyyy-mm-ddThh:nn:ss, SV_MAPPING:Contact.EffectiveStartDate_T"
+          format: date-time
+      description: "A period of time, either as a deadline(endDateTime only)a startDateTime\
+        \ only, or both"
+    EffectiveDate:
+      type: object
+      properties:
+        effectiveStartDate:
+          type: string
+          description: "Start of the time period. Format: yyyy-mm-ddThh:nn:ss, SV_MAPPING:Contact.EffectiveStartDate_T"
+          format: date-time
+      description: Effective date and time where an transaction take place
+    ObjectKey:
+      type: integer
+      description: All object keys matching search criteria returned in the response
+        body. Array of objectKey
+      format: int64
+    CaseRef:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier of the Case
+        href:
+          type: string
+          description: Reference of the Case
+        status:
+          type: string
+          description: The Status of Case. Possible Values New/Open/Closed
+          x-refdata-source: DB-Case_Status
+        name:
+          type: string
+          description: The name of the attachment
+      description: The Case data structure
+    Error:
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          type: string
+          description: "Application relevant detail, defined in the API or a common\
+            \ list."
+        reason:
+          type: string
+          description: Explanation of the reason for the error which can be shown
+            to a client user.
+        message:
+          type: string
+          description: Details information related to the error which can be shown
+            to a client user.
+        action:
+          type: string
+          description: Corrective actions for the error which can be shown to a client
+            user.
+        status:
+          type: string
+          description: HTTP Error code extension
+        referenceError:
+          type: string
+          description: URI of documentation describing the error.
+          format: uri
+        '@baseType':
+          type: string
+          description: "When sub - classing, this defines the super - class."
+        '@schemaLocation':
+          type: string
+          description: A URI to a JSON - Schema file that defines additional attributes
+            and relationships
+          format: uri
+        '@type':
+          type: string
+          description: "'Error' indicates that the error message is of server error\
+            \ message, 'Warning' indicates that the error message is of server warning\
+            \ message"
+        errorParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorParam'
+      description: "Used when an API throws an Error, typically with a HTTP error\
+        \ response - code(3xx, 4xx, 5xx)"
+    ErrorParam:
+      type: string
+      description: Represents error parameters that are used in the construction of
+        the error message.
+x-original-swagger-version: "2.0"
