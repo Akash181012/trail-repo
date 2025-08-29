@@ -4,7 +4,6 @@
 FROM registry.access.redhat.com/ubi8/openjdk-21-runtime
 WORKDIR /work/
 # Copy the built application from the source workspace (where Maven placed it)
-RUN ls -l /workspace/source/target
 
 COPY target/account-management-service-1.0.0-SNAPSHOT.jar /work/application.jar
 
