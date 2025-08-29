@@ -5,7 +5,7 @@ FROM registry.access.redhat.com/ubi8/openjdk-21-runtime
 WORKDIR /work/
 # Copy the built application from the source workspace (where Maven placed it)
 
-COPY target/account-management-service-1.0.0-SNAPSHOT.jar /work/application.jar
+COPY target/account-management-service*.jar /work/application.jar
 
 # Expose the port Quarkus listens on (default is 8080)
 EXPOSE 8080
