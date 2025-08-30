@@ -11,9 +11,3 @@ COPY target/account-management-service-1.0.0-SNAPSHOT-runner.jar /work/applicati
 EXPOSE 8080
 # Command to run the Quarkus application
 CMD ["java", "-jar", "application.jar"]
-
-
-oc project rhaf-integration || true
-oc delete deployment account-management-service || true
-oc delete service account-management-service || true
-oc new-app --name=account-management-service --image=image-registry.openshift-image-registry.svc:5000/rhaf-integration/account-management-service:latest -n rhaf-integration
