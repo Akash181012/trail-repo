@@ -4,3 +4,6 @@
 !target/*-runner.jar
 !target/lib/*
 !target/quarkus-app/*
+
+
+oc new-app --name=account-management-service --image=image-registry.openshift-image-registry.svc:5000/rhaf-integration/account-management-service:latest -n rhaf-integration

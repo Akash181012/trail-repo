@@ -1,4 +1,20 @@
- <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-http</artifactId>
-        </dependency>
+system-sidekiq
+
+status:
+  observedGeneration: 1
+  replicas: 1
+  updatedReplicas: 1
+  unavailableReplicas: 1
+  conditions:
+    - type: Available
+      status: 'False'
+      lastUpdateTime: '2025-08-30T06:54:26Z'
+      lastTransitionTime: '2025-08-30T06:54:26Z'
+      reason: MinimumReplicasUnavailable
+      message: Deployment does not have minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2025-08-30T06:54:26Z'
+      lastTransitionTime: '2025-08-30T06:54:26Z'
+      reason: ReplicaSetUpdated
+      message: ReplicaSet "system-sidekiq-57c984bc84" is progressing.
