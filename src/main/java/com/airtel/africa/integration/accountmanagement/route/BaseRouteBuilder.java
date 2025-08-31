@@ -2,36 +2,17 @@ package com.airtel.africa.integration.accountmanagement.route;
 
 import com.airtel.africa.integration.accountmanagement.model.party.Error;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Produces;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.bean.validator.BeanValidationException;
 import org.apache.camel.model.rest.RestBindingMode;
-import org.apache.camel.support.jsse.KeyStoreParameters;
-import org.apache.camel.support.jsse.SSLContextParameters;
-import org.apache.camel.support.jsse.TrustManagersParameters;
 
-import java.beans.JavaBean;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @ApplicationScoped
 public abstract class BaseRouteBuilder extends RouteBuilder {
-
-    @Produces
-    public SSLContextParameters externalApiSsl() {
-        KeyStoreParameters ksp = new KeyStoreParameters();
-        ksp.setResource("/etc/certs/truststore.p12");
-        ksp.setPassword("changeit");
-
-        TrustManagersParameters tmp = new TrustManagersParameters();
-        tmp.setKeyStore(ksp);
-
-        SSLContextParameters ssl = new SSLContextParameters();
-        ssl.setTrustManagers(tmp);
-        return ssl;
-    }
 
     @Override
     public void configure() throws Exception {
