@@ -23,13 +23,10 @@ public class PartyManagementRoute extends BaseRouteBuilder {
 
         restConfiguration()
                 .component("platform-http").contextPath("/api/party-management/v4/")
-                .apiContextPath("/openapi")
-                .apiContextRouteId("tmf632-openapi-context")
+                .apiContextPath("/openapi/party")
                 .bindingMode(RestBindingMode.auto)
                 .bindingPackageScan("com.airtel.africa.integration.accountmanagement.model.party")
-                .clientRequestValidation(true)
-                .apiProperty("api.title", "Party API")
-                .apiProperty("api.version", "4");
+                .clientRequestValidation(true);
 
        //rest().openApi("openapi/party632Individual.yaml");
 

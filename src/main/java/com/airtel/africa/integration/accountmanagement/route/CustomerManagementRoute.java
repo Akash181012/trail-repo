@@ -20,9 +20,8 @@ public class CustomerManagementRoute extends BaseRouteBuilder {
         super.configure();
 
         restConfiguration()
-                .component("platform-http").contextPath("/api/customer-management/v4/")
-                .apiContextPath("/openapi")
-                .apiContextRouteId("tmf632-openapi-context")
+                .component("platform-http").contextPath("/api")
+                .apiContextPath("/openapi/customer")
                 .bindingMode(RestBindingMode.json)
                 .bindingPackageScan("com.airtel.africa.integration.accountmanagement.model.customer")
                 .clientRequestValidation(true);
@@ -30,7 +29,7 @@ public class CustomerManagementRoute extends BaseRouteBuilder {
         //rest().openApi("openapi/customer629.yaml");
 
 
-        rest("/customer")
+        rest("/customer-management/v4/customer")
                 .get("/{Id}")
                         .produces("application/json")
                         .to("direct:retrieveCustomer")

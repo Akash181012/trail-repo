@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-management
+  namespace: rhaf-integration
+  labels:
+    app: account-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: account-management
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: account-management
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: account-management
+          image: image-registry.openshift-image-registry.svc:5000/rhaf-integration/account-management-service:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: HTTP_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  name: cluster-proxy
+                  key: httpProxy
+            - name: HTTPS_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  name: cluster-proxy
+                  key: httpsProxy
+            - name: NO_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  name: cluster-proxy
+                  key: noProxy
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: QUARKUS_PROFILE
+              value: "ug-uat"
+          ports:
+            - containerPort: 8080
+              name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-management-service
+  labels:
+    app: account-management
+spec:
+  selector:
+    app: account-management
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31001
+  type: NodePort
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: account-management-route
+  labels:
+    app: account-management
+spec:
+  host: account-management-route-rhaf-integration.apps.uat01.ug.airtel.ocp
+  path: /
+  to:
+    kind: Service
+    name: account-management-service
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
