@@ -18,14 +18,6 @@ public class CustomerManagementRoute extends BaseRouteBuilder {
     @Override
     public void configure() throws Exception {
         super.configure();
-
-        restConfiguration()
-                .component("platform-http").contextPath("/api")
-                .apiContextPath("/openapi/customer")
-                .bindingMode(RestBindingMode.json)
-                .bindingPackageScan("com.airtel.africa.integration.accountmanagement.model.customer")
-                .clientRequestValidation(true);
-
         //rest().openApi("openapi/customer629.yaml");
 
 

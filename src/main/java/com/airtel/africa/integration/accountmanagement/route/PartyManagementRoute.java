@@ -21,16 +21,9 @@ public class PartyManagementRoute extends BaseRouteBuilder {
         interceptFrom("rest*").process("IncomingRequestLogger");
         interceptSendToEndpoint("http*").process("OutgoingRequestLogger");
 
-        restConfiguration()
-                .component("platform-http").contextPath("/api/party-management/v4/")
-                .apiContextPath("/openapi/party")
-                .bindingMode(RestBindingMode.auto)
-                .bindingPackageScan("com.airtel.africa.integration.accountmanagement.model.party")
-                .clientRequestValidation(true);
-
        //rest().openApi("openapi/party632Individual.yaml");
 
-        rest("/individual")
+        rest("/party-management/v4/individual")
                 .get("/{Id}")
                         .produces("application/json")
                         .to("direct:retrieveIndividual")

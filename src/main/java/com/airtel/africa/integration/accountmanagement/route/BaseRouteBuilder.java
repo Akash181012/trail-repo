@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.bean.validator.BeanValidationException;
+import org.apache.camel.model.rest.RestBindingMode;
 
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -15,6 +16,12 @@ public abstract class BaseRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+
+        restConfiguration()
+                .component("platform-http")
+                .contextPath("/api")
+                .bindingMode(RestBindingMode.json)
+                .clientRequestValidation(true);
 
         onException(BeanValidationException.class).handled(true)
                 .process(exchange -> {

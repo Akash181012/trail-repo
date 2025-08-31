@@ -21,6 +21,10 @@ spec:
         app: account-management
     spec:
       restartPolicy: Always
+      volumes:
+        - name: truststore-volume
+          secret:
+            secretName: account-management-truststore
       containers:
         - name: account-management
           image: image-registry.openshift-image-registry.svc:5000/rhaf-integration/account-management-service:latest
@@ -32,6 +36,10 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "500m"
+          volumeMounts:
+            - name: truststore-volume
+              mountPath: /etc/certs/truststore.p12
+              subPath: truststore.p12
           env:
             - name: HTTP_PROXY
               valueFrom:
