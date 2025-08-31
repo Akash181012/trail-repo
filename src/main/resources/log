@@ -1,0 +1,22 @@
+2025-08-31 05:16:07,669 INFO [org.apa.cam.imp.eng.AbstractCamelContext] (main) Started route1 (rest://get:/customer-management/v4/customer:/%7BId%7D)
+2025-08-31 05:16:07,670 INFO [org.apa.cam.imp.eng.AbstractCamelContext] (main) Started route2 (rest://post:/customer-management/v4/customer)
+2025-08-31 05:16:07,670 INFO [org.apa.cam.imp.eng.AbstractCamelContext] (main) Started route3 (rest://patch:/customer-management/v4/customer:/%7BId%7D)
+2025-08-31 05:16:07,671 INFO [org.apa.cam.imp.eng.AbstractCamelContext] (main) Started route4 (direct://validateHeaders)
+2025-08-31 05:16:07,671 INFO [org.apa.cam.imp.eng.AbstractCamelContext] (main) Started route5 (rest://get:/party-management/v4/individual:/%7BId%7D)
+2025-08-31 05:16:07,671 INFO [org.apa.cam.imp.eng.AbstractCamelContext] (main) Started route6 (rest://post:/party-management/v4/individual)
+2025-08-31 05:16:07,672 INFO [org.apa.cam.imp.eng.AbstractCamelContext] (main) Started route7 (rest://patch:/party-management/v4/individual:/%7BId%7D)
+2025-08-31 05:16:07,673 INFO [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 4.10.3.redhat-00022 (camel-1) started in 1s702ms (build:0ms init:0ms start:1s702ms boot:16s193ms)
+2025-08-31 05:16:08,762 INFO [io.quarkus] (main) account-management-service 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.20.1.redhat-00003) started in 23.001s. Listening on: http://0.0.0.0:8080
+2025-08-31 05:16:08,763 INFO [io.quarkus] (main) Profile ug-uat activated.
+2025-08-31 05:16:08,764 INFO [io.quarkus] (main) Installed features: [camel-attachments, camel-bean-validator, camel-core, camel-direct, camel-file, camel-http, camel-jackson, camel-openapi-java, camel-platform-http, camel-rest, camel-rest-openapi, cdi, hibernate-validator, smallrye-context-propagation, smallrye-openapi, vertx]
+2025-08-31 05:16:53,061 INFO [com.air.afr.int.acc.pro.log.IncomingRequestLogger] (executor-thread-1) === Incoming Request ===
+2025-08-31 05:16:53,062 INFO [com.air.afr.int.acc.pro.log.IncomingRequestLogger] (executor-thread-1) URL : platform-http:///api/party-management/v4/individual/%7BId%7D?httpMethodRestrict=GET
+2025-08-31 05:16:53,062 INFO [com.air.afr.int.acc.pro.log.IncomingRequestLogger] (executor-thread-1) Method : GET
+2025-08-31 05:16:53,062 INFO [com.air.afr.int.acc.pro.log.IncomingRequestLogger] (executor-thread-1) Path : /api/party-management/v4/individual/123
+2025-08-31 05:16:53,063 INFO [com.air.afr.int.acc.pro.log.IncomingRequestLogger] (executor-thread-1) Query : null
+2025-08-31 05:16:53,063 INFO [com.air.afr.int.acc.pro.log.IncomingRequestLogger] (executor-thread-1) Headers : {accept=*/*, accept-encoding=gzip, deflate, br, cache-control=no-cache, CamelHttpMethod=GET, CamelHttpPath=/api/party-management/v4/individual/123, CamelHttpQuery=null, CamelHttpRawQuery=null, CamelHttpUri=/api/party-management/v4/individual/123, CamelHttpUrl=http://account-management-route-rhaf-integration.apps.uat01.ug.airtel.ocp/api/party-management/v4/individual/123, CamelVertxPlatformHttpLocalAddress=10.94.15.6:8080, CamelVertxPlatformHttpRemoteAddress=10.94.10.2:42604, forwarded=for=10.175.31.13;host=account-management-route-rhaf-integration.apps.uat01.ug.airtel.ocp;proto=https, host=account-management-route-rhaf-integration.apps.uat01.ug.airtel.ocp, Id=123, postman-token=b75fec35-4f24-4abe-a3ac-10286789137c, user-agent=PostmanRuntime/7.37.3, x-channel=SalesForce, x-forwarded-for=10.175.31.13, x-forwarded-host=account-management-route-rhaf-integration.apps.uat01.ug.airtel.ocp, x-forwarded-p...
+2025-08-31 05:16:53,071 INFO [com.air.afr.int.acc.pro.log.IncomingRequestLogger] (executor-thread-1) Body : null
+2025-08-31 05:16:53,158 INFO [route5] (executor-thread-1) QP: 123
+2025-08-31 05:16:55,262 INFO [com.air.afr.int.acc.pro.log.OutgoingRequestLogger] (executor-thread-1) === Outgoing Request ===
+2025-08-31 05:16:55,265 INFO [com.air.afr.int.acc.pro.log.OutgoingRequestLogger] (executor-thread-1) Response Body: null
+2025-08-31 05:16:55,266 INFO [com.air.afr.int.acc.pro.log.OutgoingRequestLogger] (executor-thread-1) Response Headers: {Authorization=Basic VFJFUkVTVDpXb3JrRm9yQWlydGVsJDEyMzQ=, CamelHttpPath=/trerest_in/api/v1/individual/123, Content-Type=application/json, Id=123}
