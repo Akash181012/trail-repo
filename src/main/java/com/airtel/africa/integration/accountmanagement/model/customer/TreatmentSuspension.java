@@ -12,6 +12,7 @@
 
 package com.airtel.africa.integration.accountmanagement.model.customer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,6 +36,7 @@ public class TreatmentSuspension {
   private String suspensionReasonCode = null;
 
   @JsonProperty("suspensionEndDate")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private Date suspensionEndDate = null;
 
   @JsonProperty("id")

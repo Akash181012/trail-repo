@@ -12,6 +12,7 @@
 
 package com.airtel.africa.integration.accountmanagement.model.party;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,11 +33,11 @@ import java.util.Objects;
 
 public class TimePeriod {
   @JsonProperty("endDateTime")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
   private Date endDateTime = null;
 
   @JsonProperty("startDateTime")
-  private Date startDateTime = null;
-
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")  private Date startDateTime = null;
   public TimePeriod endDateTime(Date endDateTime) {
     this.endDateTime = endDateTime;
     return this;
