@@ -19,7 +19,6 @@ public class CustomerManagementRoute extends BaseRouteBuilder {
         super.configure();
         //rest().openApi("openapi/customer629.yaml");
 
-
         rest("/customer-management/v4/customer")
                 .get("/{Id}")
                         .produces("application/json")
@@ -45,7 +44,7 @@ public class CustomerManagementRoute extends BaseRouteBuilder {
                 .setHeader("Authorization", constant("Basic VFJFUkVTVDpXb3JrRm9yQWlydGVsJDEyMzQ="))
                 .toD(billingServiceConfig.customerURL()+"/${header.id}?bridgeEndpoint=true&throwExceptionOnFailure=false",true)
                 .setProperty("externalStatusCode", header(Exchange.HTTP_RESPONSE_CODE))
-                .unmarshal().json()
+                //.unmarshal().json()
                 .log("POST API Response: ${body}")
                 .choice()
                     .when(simple("${exchangeProperty.externalStatusCode} >= 200 && ${exchangeProperty.externalStatusCode} < 300"))

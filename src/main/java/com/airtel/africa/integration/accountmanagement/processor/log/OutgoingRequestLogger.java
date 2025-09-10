@@ -14,6 +14,7 @@ public class OutgoingRequestLogger implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         LOG.info("=== Outgoing Request ===");
+        LOG.infof("Response Headers: %s", exchange.getFromEndpoint().getEndpointUri());
         LOG.infof("Response Body: %s", exchange.getMessage().getBody(String.class));
         LOG.infof("Response Headers: %s", exchange.getMessage().getHeaders());
     }
