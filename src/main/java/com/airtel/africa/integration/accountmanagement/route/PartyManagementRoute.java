@@ -8,6 +8,8 @@ import jakarta.inject.Inject;
 import org.apache.camel.Exchange;
 import org.apache.camel.model.dataformat.JsonLibrary;
 
+import java.net.Socket;
+
 @ApplicationScoped
 public class PartyManagementRoute extends BaseRouteBuilder {
 
@@ -101,6 +103,18 @@ public class PartyManagementRoute extends BaseRouteBuilder {
 
 
         from("timer://test?repeatCount=5")
+                .process(exchange -> {
+                    System.out.println("HTTP Proxy: " + System.getProperty("http.proxyHost") + ":" + System.getProperty("http.proxyPort"));
+                    System.out.println("HTTPS Proxy: " + System.getProperty("https.proxyHost") + ":" + System.getProperty("https.proxyPort"));
+                })
+                .process(exchange -> {
+                    try (Socket socket = new Socket(System.getProperty("http.proxyHost"), Integer.valueOf(System.getProperty("http.proxyPort")))) {
+                        System.out.println("Proxy reachable from JVM");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
+
                 .to("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false"
                         + "&connectTimeout=5000"
                         + "&responseTimeout=10000")
