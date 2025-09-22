@@ -14,8 +14,9 @@ public class OutgoingRequestLogger implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         LOG.info("=== Outgoing Request ===");
-        LOG.infof("Response Headers: %s", exchange.getFromEndpoint().getEndpointUri());
-        LOG.infof("Response Body: %s", exchange.getMessage().getBody(String.class));
-        LOG.infof("Response Headers: %s", exchange.getMessage().getHeaders());
+        LOG.infof("External API Call URL: %s", exchange.getProperty(Exchange.TO_ENDPOINT, String.class));
+        LOG.infof("External API Call Request: %s", exchange.getMessage().getBody(String.class));
+        LOG.infof("External API Call Headers: %s", exchange.getMessage().getHeaders());
+        LOG.infof("External API Call Paramns: %s", exchange.getIn().getHeader(Exchange.HTTP_QUERY, String.class));
     }
 }

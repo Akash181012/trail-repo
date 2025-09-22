@@ -89,6 +89,14 @@ public class PartyManagementRoute extends BaseRouteBuilder {
                 .choice()
                     .when(simple("${exchangeProperty.externalStatusCode} >= 200 && ${exchangeProperty.externalStatusCode} < 300"))
                         .unmarshal().json();
+
+
+        from("timer://apiCaller?fixedRate=true&period=30000")// can be triggered via ProducerTemplate or another route
+                //.routeId("external-api-call")
+                .log("Calling external API...")
+                .setHeader("CamelHttpMethod", constant("GET"))
+                .to("https://jsonplaceholder.typicode.com/posts/1")
+                .log("Response from API: ${body}");
     }
 
 }
