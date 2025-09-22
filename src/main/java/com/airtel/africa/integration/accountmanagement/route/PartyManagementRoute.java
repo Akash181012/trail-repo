@@ -18,6 +18,10 @@ public class PartyManagementRoute extends BaseRouteBuilder {
 
     @Override
     public void configure() throws Exception {
+
+        getContext().getGlobalOptions().put("http.proxyHost", "172.27.104.20");
+        getContext().getGlobalOptions().put("http.proxyPort", "4145");
+
         super.configure();
         interceptFrom("rest*").process("IncomingRequestLogger");
         interceptSendToEndpoint("http*").process("OutgoingRequestLogger");
@@ -100,6 +104,7 @@ public class PartyManagementRoute extends BaseRouteBuilder {
                 .log("https://maps.googleapis.com/maps/api/geocode/json")
                 .toD("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false", true)
                 .log("Response from API: ${body}");*/
+
 
 
         from("timer://test?repeatCount=5")
