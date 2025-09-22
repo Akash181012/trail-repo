@@ -95,7 +95,8 @@ public class PartyManagementRoute extends BaseRouteBuilder {
                 //.routeId("external-api-call")
                 .log("Calling external API...")
                 .setHeader("CamelHttpMethod", constant("GET"))
-                .to("https://jsonplaceholder.typicode.com/posts/1")
+                .log("https://maps.googleapis.com/maps/api/geocode/json")
+                .toD("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false", true)
                 .log("Response from API: ${body}");
     }
 
