@@ -19,9 +19,6 @@ public class PartyManagementRoute extends BaseRouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        getContext().getGlobalOptions().put("http.proxyHost", "172.27.104.20");
-        getContext().getGlobalOptions().put("http.proxyPort", "4145");
-
         super.configure();
         interceptFrom("rest*").process("IncomingRequestLogger");
         interceptSendToEndpoint("http*").process("OutgoingRequestLogger");
