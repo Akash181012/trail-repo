@@ -20,14 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 @ApplicationScoped
-@Path("/api")
+@Path("/test")
 public class GreetingResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GreetingResource.class);
-
-    @Inject
-    @ConfigProperty(name = "greeting.message")
-    String message;
 
     @Inject
     ProducerTemplate producerTemplate;
@@ -40,10 +36,10 @@ public class GreetingResource {
             URL url = new URL("https://maps.googleapis.com/maps/api/geocode/json?address=Seattle");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-            System.out.println(con.getResponseCode());
+            System.out.println("Success:->"+con.getResponseCode());
         } catch (Exception e){
             LOGGER.error(e.getMessage());
         }
-        return "Hello from Quarkus REST " + message;
+        return "Hello from Quarkus REST " ;
     }
 }
