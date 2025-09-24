@@ -18,6 +18,8 @@ public class PartyManagementRoute extends BaseRouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        getContext().getGlobalOptions().put("http.proxyHost", "skyhighproxy.ug.airtel.africa");
+        getContext().getGlobalOptions().put("http.proxyPort", "4146");
 
         super.configure();
         interceptFrom("rest*").process("IncomingRequestLogger");
