@@ -107,8 +107,8 @@ public class PartyManagementRoute extends BaseRouteBuilder {
 
 
 
-        /*from("timer://test?repeatCount=5")
-                *//*.process(exchange -> {
+        from("timer://test?repeatCount=5")
+                /*.process(exchange -> {
                     System.out.println("HTTP Proxy: " + System.getProperty("http.proxyHost") + ":" + System.getProperty("http.proxyPort"));
                     System.out.println("HTTPS Proxy: " + System.getProperty("https.proxyHost") + ":" + System.getProperty("https.proxyPort"));
                 })
@@ -118,13 +118,13 @@ public class PartyManagementRoute extends BaseRouteBuilder {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                })*//*
+                })*/
 
                 .to("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false&proxyHost=172.27.104.20&proxyPort=4145&proxyScheme=http"
                         + "&connectTimeout=5000"
                         + "&responseTimeout=10000")
                 .log("Status: ${header.CamelHttpResponseCode}")
-                .log("Response: ${body}");*/
+                .log("Response: ${body}");
     }
 
 }
