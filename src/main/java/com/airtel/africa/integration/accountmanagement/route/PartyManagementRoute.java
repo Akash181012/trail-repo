@@ -120,7 +120,7 @@ public class PartyManagementRoute extends BaseRouteBuilder {
                     }
                 })*/
 
-                .to("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false&proxyHost=172.27.104.20&proxyPort=4145&proxyScheme=http"
+                .to("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false"
                         + "&connectTimeout=5000"
                         + "&responseTimeout=10000")
                 .log("Status: ${header.CamelHttpResponseCode}")
