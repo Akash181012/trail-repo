@@ -119,7 +119,7 @@ public class PartyManagementRoute extends BaseRouteBuilder {
                     }
                 })*/
 
-                .to("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false&roxyHost=skyhighproxy.ug.airtel.africa&proxyPort=4146&proxyScheme=http"
+                .to("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false&proxyHost=skyhighproxy.ug.airtel.africa&proxyPort=4146&proxyScheme=http"
                         + "&connectTimeout=5000"
                         + "&responseTimeout=10000")
                 .log("Status: ${header.CamelHttpResponseCode}")
