@@ -18,10 +18,8 @@ public class PartyManagementRoute extends BaseRouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        getContext().getGlobalOptions().put("http.proxyHost", "skyhighproxy.ug.airtel.africa");
-        getContext().getGlobalOptions().put("http.proxyPort", "4146");
-        getContext().getGlobalOptions().put("https.proxyHost", "skyhighproxy.ug.airtel.africa");
-        getContext().getGlobalOptions().put("httpw.proxyPort", "4146");
+        //getContext().getGlobalOptions().put("http.proxyHost", "skyhighproxy.ug.airtel.africa");
+        //getContext().getGlobalOptions().put("http.proxyPort", "4146");
 
         super.configure();
         interceptFrom("rest*").process("IncomingRequestLogger");
@@ -121,7 +119,7 @@ public class PartyManagementRoute extends BaseRouteBuilder {
                     }
                 })*/
 
-                .to("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false"
+                .to("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false&roxyHost=skyhighproxy.ug.airtel.africa&proxyPort=4146&proxyScheme=http"
                         + "&connectTimeout=5000"
                         + "&responseTimeout=10000")
                 .log("Status: ${header.CamelHttpResponseCode}")
