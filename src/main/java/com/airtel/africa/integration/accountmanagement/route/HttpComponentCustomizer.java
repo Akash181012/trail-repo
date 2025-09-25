@@ -1,8 +1,6 @@
 package com.airtel.africa.integration.accountmanagement.route;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.ws.rs.Produces;
-import org.apache.camel.component.http.ProxyHttpClientConfigurer;
 
 
 @ApplicationScoped

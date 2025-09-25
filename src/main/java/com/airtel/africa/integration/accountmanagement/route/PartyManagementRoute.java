@@ -18,16 +18,6 @@ public class PartyManagementRoute extends BaseRouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        //getContext().getGlobalOptions().put("http.proxyHost", "skyhighproxy.ug.airtel.africa");
-        //getContext().getGlobalOptions().put("http.proxyPort", "4146");
-
-
-        HttpClientConfigurer proxyConfigurer = new ProxyHttpClientConfigurer("skyhighproxy.ug.airtel.africa", 4145, "http");
-
-        // Set it on the HTTP component
-        getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setHttpClientConfigurer(proxyConfigurer);
-
-
         super.configure();
         interceptFrom("rest*").process("IncomingRequestLogger");
         interceptSendToEndpoint("http*").process("OutgoingRequestLogger");

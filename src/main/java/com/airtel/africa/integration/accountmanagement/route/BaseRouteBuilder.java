@@ -5,6 +5,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.bean.validator.BeanValidationException;
+import org.apache.camel.component.http.HttpClientConfigurer;
+import org.apache.camel.component.http.ProxyHttpClientConfigurer;
 import org.apache.camel.model.rest.RestBindingMode;
 
 import java.util.UUID;
@@ -16,6 +18,14 @@ public abstract class BaseRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+
+        HttpClientConfigurer proxyConfigurer = new ProxyHttpClientConfigurer("skyhighproxy.ug.airtel.africa", 4146, "http");
+
+        // Set it on the HTTP component
+        getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setHttpClientConfigurer(proxyConfigurer);
+        //getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setProxyAuthScheme("http");
+        //getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setProxyAuthHost("skyhighproxy.ug.airtel.africa");
+        //getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setProxyAuthPort(4146);
 
         restConfiguration()
                 .component("platform-http")
