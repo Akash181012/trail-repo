@@ -6,8 +6,6 @@ import com.airtel.africa.integration.accountmanagement.model.party.IndividualUpd
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.Exchange;
-import org.apache.camel.component.http.HttpClientConfigurer;
-import org.apache.camel.component.http.ProxyHttpClientConfigurer;
 import org.apache.camel.model.dataformat.JsonLibrary;
 
 @ApplicationScoped
@@ -18,6 +16,12 @@ public class PartyManagementRoute extends BaseRouteBuilder {
 
     @Override
     public void configure() throws Exception {
+
+        getContext().getGlobalOptions().put("http.proxyHost", "skyhighproxy.ug.airtel.africa");
+        getContext().getGlobalOptions().put("http.proxyPort", "4146");
+        getContext().getGlobalOptions().put("http.proxyScheme", "http");
+
+
         super.configure();
         interceptFrom("rest*").process("IncomingRequestLogger");
         interceptSendToEndpoint("http*").process("OutgoingRequestLogger");

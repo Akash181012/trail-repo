@@ -5,8 +5,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.bean.validator.BeanValidationException;
-import org.apache.camel.component.http.HttpClientConfigurer;
-import org.apache.camel.component.http.ProxyHttpClientConfigurer;
 import org.apache.camel.model.rest.RestBindingMode;
 
 import java.util.UUID;
