@@ -19,7 +19,7 @@ public class CustomerManagementRoute extends BaseRouteBuilder {
         super.configure();
         //rest().openApi("openapi/customer629.yaml");
 
-        rest("/customer-management/v4/customer")
+        rest("/account-management/v4/customer")
                 .get("/{Id}")
                         .produces("application/json")
                         .to("direct:retrieveCustomer")
