@@ -11,15 +11,17 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 @ApplicationScoped
 public class PartyManagementRoute extends BaseRouteBuilder {
 
+
+
     @Inject
     BillingServiceConfig billingServiceConfig;
 
     @Override
     public void configure() throws Exception {
 
-        /*getContext().getGlobalOptions().put("http.proxyHost", "skyhighproxy.ug.airtel.africa");
+        getContext().getGlobalOptions().put("http.proxyHost", "skyhighproxy.ug.airtel.africa");
         getContext().getGlobalOptions().put("http.proxyPort", "4146");
-        getContext().getGlobalOptions().put("http.proxyScheme", "http");*/
+        getContext().getGlobalOptions().put("http.proxyScheme", "http");
 
 
         super.configure();
