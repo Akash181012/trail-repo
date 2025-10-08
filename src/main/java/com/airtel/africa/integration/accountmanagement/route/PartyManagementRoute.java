@@ -19,9 +19,9 @@ public class PartyManagementRoute extends BaseRouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        getContext().getGlobalOptions().put("http.proxyHost", "skyhighproxy.ug.airtel.africa");
+        /*getContext().getGlobalOptions().put("http.proxyHost", "skyhighproxy.ug.airtel.africa");
         getContext().getGlobalOptions().put("http.proxyPort", "4146");
-        getContext().getGlobalOptions().put("http.proxyScheme", "http");
+        getContext().getGlobalOptions().put("http.proxyScheme", "http");*/
 
 
         super.configure();
@@ -60,7 +60,7 @@ public class PartyManagementRoute extends BaseRouteBuilder {
                 .removeHeaders("*","Id")
                 .setHeader("Content-Type", constant("application/json"))
                 .setHeader("Authorization", constant(billingServiceConfig.auth()))
-                .toD(billingServiceConfig.partyURL()+"/${header.id}?bridgeEndpoint=true&throwExceptionOnFailure=false&proxyHost=&proxyPort=0", true)
+                .toD(billingServiceConfig.partyURL()+"/${header.id}?bridgeEndpoint=true&throwExceptionOnFailure=false", true)
                 .setProperty("externalStatusCode", header(Exchange.HTTP_RESPONSE_CODE))
                 .log("POST API Response: ${body}")
                 .choice()
