@@ -16,12 +16,6 @@ public abstract class BaseRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-
-        //HttpClientConfigurer proxyConfigurer = new ProxyHttpClientConfigurer("skyhighproxy.ug.airtel.africa", 4146, "http");
-
-        // Set it on the HTTP component
-        //getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setHttpClientConfigurer(proxyConfigurer)
-
         restConfiguration()
                 .component("platform-http")
                 .contextPath("/api")
