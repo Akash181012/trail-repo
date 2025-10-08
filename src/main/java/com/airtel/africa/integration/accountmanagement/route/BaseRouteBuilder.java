@@ -21,9 +21,9 @@ public abstract class BaseRouteBuilder extends RouteBuilder {
 
         // Set it on the HTTP component
         //getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setHttpClientConfigurer(proxyConfigurer);
-        //getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setProxyAuthScheme("http");
-        //getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setProxyAuthHost("skyhighproxy.ug.airtel.africa");
-        //getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setProxyAuthPort(4146);
+        getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setProxyAuthScheme("http");
+        getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setProxyAuthHost("skyhighproxy.ug.airtel.africa");
+        getContext().getComponent("http", org.apache.camel.component.http.HttpComponent.class).setProxyAuthPort(4146);
 
         restConfiguration()
                 .component("platform-http")
