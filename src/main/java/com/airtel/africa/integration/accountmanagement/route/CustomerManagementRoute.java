@@ -36,7 +36,7 @@ public class CustomerManagementRoute extends BaseRouteBuilder {
                         .produces("application/json")
                         .to("direct:patchCustomer");
 
-        rest("/customer-management/v4/customerByAccountName")
+        rest("/customer-management/v4/customer/customerByAccountName")
                 .patch("/{Id}")
                         .type(CustomerUpdate.class)
                         .consumes("application/json")
