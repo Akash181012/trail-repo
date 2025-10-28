@@ -11,6 +11,8 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 @ApplicationScoped
 public class PartyManagementRoute extends BaseRouteBuilder {
 
+
+
     @Inject
     BillingServiceConfig billingServiceConfig;
 
@@ -107,12 +109,12 @@ public class PartyManagementRoute extends BaseRouteBuilder {
 
 
 
-        /*from("timer://test?repeatCount=5")
+        from("timer://test?repeatCount=2")
                 .to("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false"
                         + "&connectTimeout=5000"
                         + "&responseTimeout=10000")
                 .log("Status: ${header.CamelHttpResponseCode}")
-                .log("Response: ${body}");*/
+                .log("Response: ${body}");
     }
 
 }
