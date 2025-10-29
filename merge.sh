@@ -2,8 +2,8 @@
 
 DEFAULT_FILE="src/main/resources/application.properties"
 UG_UAT_FILE="src/main/resources/application-ug-uat.properties"
-CONFIGMAP_YAML="configmap-merged.yaml"
-SECRET_YAML="secret-merged.yaml"
+CONFIGMAP_YAML="deploy/configmap-merged.yaml"
+SECRET_YAML="deploy/secret-merged.yaml"
 
 confidential_patterns=("auth" "password" "secret" "token" "key")
 
@@ -46,7 +46,7 @@ filter_confidential_encoded() {
   echo "apiVersion: v1"
   echo "kind: ConfigMap"
   echo "metadata:"
-  echo "  name: accountmanagement-config"
+  echo "  name: merged-config"
   echo "  namespace: pipelines-tutorial"
   echo "immutable: false"
   echo "data:"
