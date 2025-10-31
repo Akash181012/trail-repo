@@ -48,7 +48,7 @@ extract_confidential_block() {
   echo "apiVersion: v1"
   echo "kind: ConfigMap"
   echo "metadata:"
-  echo "  name: test-config"
+  echo "name: accountmanagement-config"
   echo "data:"
   echo "  application.properties: |-"
   filter_non_confidential "$DEFAULT_FILE" | sed 's/^/    /'
@@ -61,7 +61,7 @@ extract_confidential_block() {
   echo "apiVersion: v1"
   echo "kind: Secret"
   echo "metadata:"
-  echo "  name: test-secret"
+  echo "name: accountmanagement-secret"
   echo "type: Opaque"
   echo "data:"
   echo -n "  application.properties: "
