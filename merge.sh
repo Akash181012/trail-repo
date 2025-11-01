@@ -49,6 +49,7 @@ extract_confidential_block() {
   echo "kind: ConfigMap"
   echo "metadata:"
   echo " name: accountmanagement-config"
+  echo "namespace: pipelines-tutorial"
   echo "data:"
   echo "  application.properties: |-"
   filter_non_confidential "$DEFAULT_FILE" | sed 's/^/    /'
@@ -62,6 +63,7 @@ extract_confidential_block() {
   echo "kind: Secret"
   echo "metadata:"
   echo " name: accountmanagement-secret"
+  echo "namespace: pipelines-tutorial"
   echo "type: Opaque"
   echo "data:"
   echo -n "  application.properties: "
