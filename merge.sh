@@ -2,8 +2,13 @@
 
 DEFAULT_FILE="src/main/resources/application.properties"
 UG_UAT_FILE="src/main/resources/application-ug-uat.properties"
+<<<<<<< HEAD
 CONFIGMAP_YAML="deploy/configmap.yaml"
 SECRET_YAML="deploy/secret.yaml"
+=======
+CONFIGMAP_YAML="deploy/configmap-merged.yaml"
+SECRET_YAML="deploy/secret-merged.yaml"
+>>>>>>> f939a446c38e9952b8455fd7f929945d869f38c3
 
 confidential_patterns=("auth" "password" "secret" "token" "key")
 
@@ -72,4 +77,4 @@ extract_confidential_block() {
   echo
 } > "$SECRET_YAML"
 
-echo "✅ Generated $CONFIGMAP_YAML and $SECRET_YAML with proper formatting."
+echo " Generated $CONFIGMAP_YAML and $SECRET_YAML with proper formatting."

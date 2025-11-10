@@ -87,7 +87,7 @@ public class PartyRef {
    * Contact Id, SV_MAPPING:contact.ObjectKey (Primary) or SV_MAPPING:contact.ObjectKey (Secondary) or Customer id, SV_MAPPING:Cust_Acct.ObjectKey
    * @return id
   **/
-  @NotNull
+  //@NotNull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Contact Id, SV_MAPPING:contact.ObjectKey (Primary) or SV_MAPPING:contact.ObjectKey (Secondary) or Customer id, SV_MAPPING:Cust_Acct.ObjectKey")
   public String getId() {
     return id;
