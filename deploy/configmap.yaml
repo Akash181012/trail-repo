@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: accountmanagement-config
+data:
+  application.properties: |-
+    camel.rest-openapi.specificationPath=classpath:openapi/party632Individual.json
+    quarkus.log.level=INFO
+    quarkus.log.category.org.apache.camel.quarkus.level=INFO
+    quarkus.log.category.org.apache.camel.level=INFO
+    javax.net.debug=ssl
+    quarkus.log.category.org.apache.camel.component.http=INFO
+    quarkus.jackson.serialization-inclusion=NON_NULL
+    quarkus.jackson.fail-on-unknown-properties=false
+    camel.component.http.useSystemProperties=true
+    external.api.billing.party-url=https://172.27.108.62:8186/trerest_in/api/v1/individual
+    external.api.billing.customer-url=https://172.27.108.62:8186/trerest_in/api/v1/customer
+    external.api.billing.customer-account-url=https://172.27.108.62:8186/trerest_in/api/v1/customerByAccountName
+  application-ug-uat.properties: |-
+    external.api.billing.party-url=https://172.27.108.62:8186/trerest_in/api/v1/individual
+    external.api.billing.customer-url=https://172.27.108.62:8186/trerest_in/api/v1/customer
+    external.api.billing.customer-account-url=https://172.27.108.62:8186/trerest_in/api/v1/customerByAccountName
