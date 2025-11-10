@@ -2,8 +2,8 @@
 
 DEFAULT_FILE="src/main/resources/application.properties"
 UG_UAT_FILE="src/main/resources/application-ug-uat.properties"
-CONFIGMAP_YAML="deploy/configmap-merged.yaml"
-SECRET_YAML="deploy/secret-merged.yaml"
+CONFIGMAP_YAML="deploy/configmap.yaml"
+SECRET_YAML="deploy/secret.yaml"
 
 confidential_patterns=("auth" "password" "secret" "token" "key")
 
