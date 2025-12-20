@@ -6,6 +6,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 @ApplicationScoped
 @Named("IncomingRequestLogger")
@@ -15,12 +16,12 @@ public class IncomingRequestLogger implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        LOG.info("=== Incoming Request ===");
-        LOG.info("URL     : {}", exchange.getFromEndpoint().getEndpointUri());
-        LOG.info("Method  : {}", exchange.getIn().getHeader(Exchange.HTTP_METHOD, String.class));
-        LOG.info("Path    : {}", exchange.getIn().getHeader(Exchange.HTTP_URI, String.class));
-        LOG.info("Query   : {}", exchange.getIn().getHeader(Exchange.HTTP_QUERY, String.class));
-        LOG.info("Headers : {}", exchange.getIn().getHeaders());
-        LOG.info("Body    : {}", exchange.getIn().getBody(String.class));
+        MDC.put("traceId", String.valueOf(exchange.getIn().getHeader("X-Request-ID")));
+        MDC.put("source", String.valueOf(exchange.getIn().getHeader("X-Channel")));
+        LOG.info("Incoming API Request Method:{} URL:{} Headers: {} Body:{}",
+         exchange.getIn().getHeader(Exchange.HTTP_METHOD, String.class),
+         exchange.getIn().getHeader(Exchange.HTTP_URL, String.class),
+         exchange.getIn().getHeaders(),
+         exchange.getIn().getBody(String.class));
     }
 }

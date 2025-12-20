@@ -16,6 +16,15 @@ public abstract class BaseRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        interceptFrom("rest*").process("IncomingRequestLogger");
+        interceptSendToEndpoint("http*").process("OutgoingRequestLogger");
+        interceptSendToEndpoint("jms*").setProperty("direction", constant("INBOUND")).process("exchangeMessgaeLogger");
+        interceptFrom("jms*").setProperty("direction", constant("OUTBOUND")).process("exchangeMessgaeLogger");
+        interceptSendToEndpoint("kafka:*").setProperty("direction", constant("INBOUND")).process("exchangeMessgaeLogger");
+        interceptFrom("kafka:*").setProperty("direction", constant("OUTBOUND")).process("exchangeMessgaeLogger");
+
+
+
         restConfiguration()
                 .component("platform-http")
                 .contextPath("/api")
