@@ -73,7 +73,7 @@ extract_confidential_block() {
   echo -n "  application-ug-uat.properties: "
   extract_confidential_block "$UG_UAT_FILE"
   echo
-  echo -n "  application-ug-PROD.properties: "
+  echo -n "  application-ug-Prod.properties: "
   extract_confidential_block "$UG_PROD_FILE"
   echo
 } > "$SECRET_YAML"
