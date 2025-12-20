@@ -98,23 +98,6 @@ public class PartyManagementRoute extends BaseRouteBuilder {
                     .when(simple("${exchangeProperty.externalStatusCode} >= 200 && ${exchangeProperty.externalStatusCode} < 300"))
                         .unmarshal().json();
 
-
-        /*from("timer://apiCaller?fixedRate=true&period=30000")// can be triggered via ProducerTemplate or another route
-                //.routeId("external-api-call")
-                .log("Calling external API...")
-                .setHeader("CamelHttpMethod", constant("GET"))
-                .log("https://maps.googleapis.com/maps/api/geocode/json")
-                .toD("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false", true)
-                .log("Response from API: ${body}");*/
-
-
-
-        from("timer://test?repeatCount=2")
-                .to("https://maps.googleapis.com/maps/api/geocode/json?bridgeEndpoint=true&throwExceptionOnFailure=false"
-                        + "&connectTimeout=5000"
-                        + "&responseTimeout=10000")
-                .log("Status: ${header.CamelHttpResponseCode}")
-                .log("Response: ${body}");
     }
 
 }
