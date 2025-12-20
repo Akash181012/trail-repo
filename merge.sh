@@ -2,8 +2,8 @@
 
 DEFAULT_FILE="src/main/resources/application.properties"
 UG_UAT_FILE="src/main/resources/application-ug-uat.properties"
-CONFIGMAP_YAML="deploy/configmap-merged.yaml"
-SECRET_YAML="deploy/secret-merged.yaml"
+CONFIGMAP_YAML="deploy/configmap.yaml"
+SECRET_YAML="deploy/secret.yaml"
 
 confidential_patterns=("auth" "password" "secret" "token" "key")
 
@@ -48,7 +48,7 @@ extract_confidential_block() {
   echo "apiVersion: v1"
   echo "kind: ConfigMap"
   echo "metadata:"
-  echo " name: accountmanagement-config"
+  echo "  name: accountmanagement-config"
   echo "data:"
   echo "  application.properties: |-"
   filter_non_confidential "$DEFAULT_FILE" | sed 's/^/    /'
@@ -61,7 +61,7 @@ extract_confidential_block() {
   echo "apiVersion: v1"
   echo "kind: Secret"
   echo "metadata:"
-  echo " name: accountmanagement-secret"
+  echo "  name: accountmanagement-secret"
   echo "type: Opaque"
   echo "data:"
   echo -n "  application.properties: "
@@ -72,4 +72,4 @@ extract_confidential_block() {
   echo
 } > "$SECRET_YAML"
 
-echo "✅ Generated $CONFIGMAP_YAML and $SECRET_YAML with proper formatting."
+echo " Generated $CONFIGMAP_YAML and $SECRET_YAML ."
