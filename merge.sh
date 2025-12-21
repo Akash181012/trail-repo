@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DEFAULT_FILE="src/main/resources/application.properties"
-UG_UAT_FILE="src/main/resources/application-ug-uat.properties"
+#UG_UAT_FILE="src/main/resources/application-ug-uat.properties"
 UG_PROD_FILE="src/main/resources/application-ug-prod.properties"
 CONFIGMAP_YAML="deploy/configmap.yaml"
 SECRET_YAML="deploy/secret.yaml"
@@ -53,8 +53,8 @@ extract_confidential_block() {
   echo "data:"
   echo "  application.properties: |-"
   filter_non_confidential "$DEFAULT_FILE" | sed 's/^/    /'
-  echo "  application-ug-uat.properties: |-"
-  filter_non_confidential "$UG_UAT_FILE" | sed 's/^/    /'
+  #echo "  application-ug-uat.properties: |-"
+  #filter_non_confidential "$UG_UAT_FILE" | sed 's/^/    /'
   echo "  application-ug-prod.properties: |-"
   filter_non_confidential "$UG_PROD_FILE" | sed 's/^/    /'
 } > "$CONFIGMAP_YAML"
@@ -70,9 +70,9 @@ extract_confidential_block() {
   echo -n "  application.properties: "
   extract_confidential_block "$DEFAULT_FILE"
   echo
-  echo -n "  application-ug-uat.properties: "
-  extract_confidential_block "$UG_UAT_FILE"
-  echo
+  #echo -n "  application-ug-uat.properties: "
+  #extract_confidential_block "$UG_UAT_FILE"
+  #echo
   echo -n "  application-ug-prod.properties: "
   extract_confidential_block "$UG_PROD_FILE"
   echo
