@@ -18,9 +18,10 @@ public class IncomingRequestLogger implements Processor {
     public void process(Exchange exchange) throws Exception {
         MDC.put("traceId", String.valueOf(exchange.getIn().getHeader("X-Request-ID")));
         MDC.put("source", String.valueOf(exchange.getIn().getHeader("X-Channel")));
-        LOG.info("Incoming API Request Method:{} URL:{} Headers: {} Body:{}",
+        LOG.info("Incoming API Request Method:{} URL:{} toD_URL:{} Headers: {} Body:{}",
          exchange.getIn().getHeader(Exchange.HTTP_METHOD, String.class),
          exchange.getIn().getHeader(Exchange.HTTP_URL, String.class),
+         exchange.getProperty(Exchange.INTERCEPTED_ENDPOINT, String.class),
          exchange.getIn().getHeaders(),
          exchange.getIn().getBody(String.class));
     }

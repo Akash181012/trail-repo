@@ -16,8 +16,9 @@ public class OutgoingRequestLogger implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        LOG.info("Outgoing API Request URL:{} Headers: {} Body:{}",
+        LOG.info("Outgoing API Request URL:{} toD_URL:{} Headers: {} Body:{}",
                 exchange.getIn().getHeader(Exchange.HTTP_URI, String.class),
+                exchange.getProperty(Exchange.INTERCEPTED_ENDPOINT, String.class),
                 exchange.getIn().getHeaders(),
                 exchange.getIn().getBody(String.class));
     }
